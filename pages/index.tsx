@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import styled from "styled-components";
 import Map from "../components/Map";
+import SideLayout from "../layout/SideLayout";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
@@ -15,7 +16,9 @@ const Home: NextPage = () => {
           content="생생한 입주민의 이야기를 담은 커뮤니티, 리빙커뮤입니다."
         />
       </Head>
+      <SideLayout>
       <Map latitude={37.385046181803204} longitude={127.12331635503742} />
+      </SideLayout>
     </div>
   );
 };
