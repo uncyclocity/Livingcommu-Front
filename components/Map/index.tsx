@@ -14,21 +14,34 @@ interface MapProps {
 
 export default function Map({ latitude, longitude }: MapProps) {
   useEffect(() => {
+    const { kakao } = window;
     const mapScript = document.createElement("script");
 
     mapScript.async = true;
-    mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_APPKEY}&autoload=false`;
+    mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_APPKEY}&autoload=false&libraries=services`;
 
     document.head.appendChild(mapScript);
 
     const onLoadKakaoMap = () => {
-      window.kakao.maps.load(() => {
-        const container = document.getElementById("map");
+      const container = document.getElementById("map");
+
+      kakao.maps.load(() => {
         const options = {
-          center: new window.kakao.maps.LatLng(latitude, longitude),
+          center: new kakao.maps.LatLng(latitude, longitude),
           level: 3,
         };
-        new window.kakao.maps.Map(container, options);
+        const map = new kakao.maps.Map(container, options);
+        const geocoder = new kakao.maps.services.Geocoder();
+
+        kakao.maps.event.addListener(map, "center_changed", () => {
+          const latlng = map.getCenter();
+
+          geocoder.coord2Address(
+            latlng.getLng(),
+            latlng.getLat(),
+            (tmp: string) => console.log(tmp)
+          );
+        });
       });
     };
 
