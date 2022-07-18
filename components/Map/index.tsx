@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { nowPositionState } from "../../stores/NowPosition";
+import { nowPositionState } from "../../stores/Map";
 
 declare global {
   interface Window {
@@ -34,11 +34,13 @@ export default function Map({ latitude, longitude }: MapProps) {
           center: new kakao.maps.LatLng(latitude, longitude),
           level: 3,
         };
-        const map = new kakao.maps.Map(container, options);
+        const localMap = new kakao.maps.Map(container, options);
         const geocoder = new kakao.maps.services.Geocoder();
 
+        kakao.maps.localMap = localMap;
+
         const getCenter = () => {
-          const latlng = map.getCenter();
+          const latlng = localMap.getCenter();
 
           geocoder.coord2Address(
             latlng.getLng(),
@@ -49,7 +51,7 @@ export default function Map({ latitude, longitude }: MapProps) {
 
         getCenter();
 
-        kakao.maps.event.addListener(map, "center_changed", getCenter);
+        kakao.maps.event.addListener(localMap, "center_changed", getCenter);
       });
     };
 

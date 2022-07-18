@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { nowPositionState } from "../../stores/NowPosition";
+import { nowPositionState } from "../../stores/Map";
 import SideSearch from "./search";
 import { IoMdNavigate } from "react-icons/io";
 import IconContainer from "../Icon/IconContainer";
