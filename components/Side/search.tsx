@@ -1,25 +1,40 @@
-import styled from "styled-components"
+import styled from "styled-components";
+import IconContainer from "../Icon/IconContainer";
+import { BiSearch } from "react-icons/bi";
 
-export default function SideSearch () {
-    return (
-        <Container type="text" placeholder="주소 검색" />
-    )
+export default function SideSearch() {
+  return (
+    <Container>
+      <IconArea>
+        <IconContainer icon={<BiSearch />} size="20px" color="#0fae76" />
+      </IconArea>
+      <Input type="text" placeholder="주소를 입력하여 주택 검색" />
+    </Container>
+  );
 }
 
-const Container = styled.input`
-    width: 100%;
-    height: 50px;
+const Container = styled.div`
+  width: auto;
+  height: 40px;
 
-    padding: 20px;
+  display: flex;
+  align-items: center;
 
-    border: none;
-    outline: none;
+  margin: 15px;
 
-    font-size: 15px;
+  border-radius: 5px;
+  border: 2px solid #0fae76;
+  outline: none;
+`;
 
-    background: #f9f9f9;
+const IconArea = styled.span`
+  margin: 5px;
+`;
 
-    ::placeholder {
-        color: #aeaeb2;
-    }
-`
+const Input = styled.input`
+  height: 100%;
+
+  border-radius: 5px;
+  border: none;
+  outline: none;
+`;

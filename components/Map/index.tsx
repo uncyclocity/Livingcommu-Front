@@ -37,7 +37,7 @@ export default function Map({ latitude, longitude }: MapProps) {
         const map = new kakao.maps.Map(container, options);
         const geocoder = new kakao.maps.services.Geocoder();
 
-        kakao.maps.event.addListener(map, "center_changed", () => {
+        const getCenter = () => {
           const latlng = map.getCenter();
 
           geocoder.coord2Address(
@@ -45,7 +45,11 @@ export default function Map({ latitude, longitude }: MapProps) {
             latlng.getLat(),
             (address: any) => setNowPos(address[0])
           );
-        });
+        };
+
+        getCenter();
+
+        kakao.maps.event.addListener(map, "center_changed", getCenter);
       });
     };
 
