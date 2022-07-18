@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import IconContainer from "../Icon/IconContainer";
 import { BiSearch } from "react-icons/bi";
+import { MdCancel } from "react-icons/md";
 import { useCallback, useState } from "react";
-import { useRecoilState } from "recoil";
-import { mapState } from "../../stores/Map";
 
 export default function SideSearch() {
   const [search, setSearch] = useState("");
+  const [viewClear, setViewClear] = useState(false);
 
   const handleSearch = useCallback(() => {
     const { kakao } = window;
@@ -20,8 +20,13 @@ export default function SideSearch() {
     });
   }, [search]);
 
+  const handleClear = useCallback(() => setSearch(""), []);
+
   return (
-    <Container>
+    <Container
+      onMouseEnter={() => setViewClear(true)}
+      onMouseLeave={() => setViewClear(false)}
+    >
       <IconArea onClick={handleSearch}>
         <IconContainer icon={<BiSearch />} size="20px" color="#0fae76" />
       </IconArea>
@@ -34,6 +39,11 @@ export default function SideSearch() {
           code === "Enter" && handleSearch()
         }
       />
+      {viewClear && (
+        <IconArea onClick={handleClear}>
+          <IconContainer icon={<MdCancel />} size="15px" color="#969faf" />
+        </IconArea>
+      )}
     </Container>
   );
 }
