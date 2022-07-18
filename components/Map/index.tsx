@@ -14,7 +14,6 @@ interface MapProps {
 
 export default function Map({ latitude, longitude }: MapProps) {
   useEffect(() => {
-    const { kakao } = window;
     const mapScript = document.createElement("script");
 
     mapScript.async = true;
@@ -23,6 +22,7 @@ export default function Map({ latitude, longitude }: MapProps) {
     document.head.appendChild(mapScript);
 
     const onLoadKakaoMap = () => {
+      const { kakao } = window;
       const container = document.getElementById("map");
 
       kakao.maps.load(() => {
