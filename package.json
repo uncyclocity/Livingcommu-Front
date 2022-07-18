@@ -12,9 +12,11 @@
     "@types/styled-components": "^5.1.25",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.7",
     "enzyme": "^3.11.0",
+    "intercept-stdout": "^0.1.2",
     "next": "12.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "recoil": "^0.7.4",
     "styled-components": "^5.3.5"
   },
   "devDependencies": {

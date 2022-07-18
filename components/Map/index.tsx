@@ -1,5 +1,7 @@
 import { useEffect } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { nowPositionState } from "../../stores/NowPosition";
 
 declare global {
   interface Window {
@@ -13,6 +15,8 @@ interface MapProps {
 }
 
 export default function Map({ latitude, longitude }: MapProps) {
+  const [, setNowPos] = useRecoilState(nowPositionState);
+
   useEffect(() => {
     const mapScript = document.createElement("script");
 
@@ -39,7 +43,7 @@ export default function Map({ latitude, longitude }: MapProps) {
           geocoder.coord2Address(
             latlng.getLng(),
             latlng.getLat(),
-            (tmp: string) => console.log(tmp)
+            (address: any) => setNowPos(address[0])
           );
         });
       });
@@ -48,7 +52,7 @@ export default function Map({ latitude, longitude }: MapProps) {
     mapScript.addEventListener("load", onLoadKakaoMap);
 
     return () => mapScript.removeEventListener("load", onLoadKakaoMap);
-  }, [latitude, longitude]);
+  }, [latitude, longitude, setNowPos]);
 
   return <MapContainer id="map" />;
 }

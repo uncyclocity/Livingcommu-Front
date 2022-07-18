@@ -1,10 +1,14 @@
 import Image from "next/image";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { nowPositionState } from "../../stores/NowPosition";
 import SideSearch from "./search";
 
 type TSideContainer = { children?: React.ReactNode };
 
 export default function SideContainer({ children }: TSideContainer) {
+  const [nowPos] = useRecoilState(nowPositionState);
+
   return (
     <Container>
       <Header>
@@ -12,6 +16,9 @@ export default function SideContainer({ children }: TSideContainer) {
         <Logo>리빙커뮤</Logo>
       </Header>
       <SideSearch />
+      <div>
+        {`${nowPos.address.region_1depth_name} ${nowPos.address.region_2depth_name} ${nowPos.address.region_3depth_name}`}
+      </div>
       {children}
     </Container>
   );
