@@ -1,12 +1,13 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
-import styled from "styled-components";
 import Map from "../components/Map";
 import SideLayout from "../layout/SideLayout";
 import styles from "../styles/Home.module.css";
+import userList from "../dummy/userList.json";
 
 const Home: NextPage = () => {
+  const user = userList[0];
+
   return (
     <div className={styles.container}>
       <Head>
@@ -17,7 +18,10 @@ const Home: NextPage = () => {
         />
       </Head>
       <SideLayout>
-      <Map latitude={37.385046181803204} longitude={127.12331635503742} />
+        <Map
+          latitude={user.lastSite.latitude}
+          longitude={user.lastSite.longitude}
+        />
       </SideLayout>
     </div>
   );

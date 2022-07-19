@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "type": "원룸/다가구",
+    "name": "서현동 329-8",
+    "coordinate": {
+      "latitude": 37.377353527225,
+      "longitude": 127.1396721812872
+    },
+    "address_old": {
+      "full": "경기도 성남시 분당구 서현동 329-8",
+      "province": "경기도",
+      "sigungu": "성남시 분당구",
+      "dongNumber": "서현동 329-8"
+    },
+    "address_load": {
+      "full": "경기도 성남시 분당구 돌마로522번길 33",
+      "province": "경기도",
+      "sigungu": "성남시 분당구",
+      "loadNumber": "돌마로522번길 33"
+    }
+  }
+]

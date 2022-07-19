@@ -2,6 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { nowPositionState } from "../../stores/Map";
+import houseList from "../../dummy/houseList.json";
 
 declare global {
   interface Window {
@@ -55,13 +56,18 @@ export default function Map({ latitude, longitude }: MapProps) {
 
         kakao.maps.event.addListener(localMap, "center_changed", getCenter);
 
-        const overlay = new kakao.maps.CustomOverlay({
-          content: marker,
-          map: localMap,
-          position: new kakao.maps.LatLng(37.377353527225, 127.1396721812872),
-        });
+        houseList.map((house) => {
+          const overlay = new kakao.maps.CustomOverlay({
+            content: marker,
+            map: localMap,
+            position: new kakao.maps.LatLng(
+              house.coordinate.latitude,
+              house.coordinate.longitude
+            ),
+          });
 
-        overlay.setMap(localMap);
+          overlay.setMap(localMap);
+        });
       });
     };
 

@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "evaluation": [
+      {
+        "userId": 1,
+        "scores": [
+          {
+            "noise": 4,
+            "transit": 4,
+            "commercial": 3,
+            "interrior": 4,
+            "clean": 5
+          }
+        ],
+        "message": "살기 좋았다."
+      },
+      {
+        "userId": 1,
+        "scores": [
+          {
+            "noise": 4,
+            "transit": 4,
+            "commercial": 3,
+            "interrior": 4,
+            "clean": 5
+          }
+        ],
+        "message": "살기 좋았다."
+      },
+      {
+        "userId": 1,
+        "scores": [
+          {
+            "noise": 4,
+            "transit": 4,
+            "commercial": 3,
+            "interrior": 4,
+            "clean": 5
+          }
+        ],
+        "message": "살기 좋았다."
+      },
+      {
+        "userId": 1,
+        "scores": [
+          {
+            "noise": 4,
+            "transit": 4,
+            "commercial": 3,
+            "interrior": 4,
+            "clean": 5
+          }
+        ],
+        "message": "살기 좋았다."
+      },
+      {
+        "userId": 1,
+        "scores": [
+          {
+            "noise": 4,
+            "transit": 4,
+            "commercial": 3,
+            "interrior": 4,
+            "clean": 5
+          }
+        ],
+        "message": "살기 좋았다."
+      }
+    ]
+  }
+]

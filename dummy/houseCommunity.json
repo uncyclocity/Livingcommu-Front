@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "postings": [
+      {
+        "id": 1,
+        "userId": 1,
+        "views": 0,
+        "title": "테스트입니다.",
+        "content": "ㅈㄱㄴ",
+        "comment": [
+          {
+            "id": 1,
+            "userId": 1,
+            "content": "댓글 테스트입니다.",
+            "like": 2,
+            "dislike": 1
+          }
+        ]
+      }
+    ]
+  }
+]
