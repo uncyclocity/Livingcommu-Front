@@ -14,9 +14,11 @@
             "userId": 1,
             "content": "댓글 테스트입니다.",
             "like": 2,
-            "dislike": 1
+            "dislike": 1,
+            "createdAt": "2022-04-19T14:06:56.247Z"
           }
-        ]
+        ],
+        "createdAt": "2022-04-19T14:06:56.247Z"
       }
     ]
   }

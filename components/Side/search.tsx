@@ -32,7 +32,7 @@ export default function SideSearch() {
         }
       });
     },
-    [kakao.maps.services.Geocoder, kakao.maps.services.Status.OK]
+    [kakao]
   );
 
   const handleMove = useCallback(
