@@ -2,11 +2,13 @@ import Image from "next/image";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { nowPositionState } from "../../stores/Map";
-import SideSearch from "./search";
 import { IoMdNavigate } from "react-icons/io";
 import IconContainer from "../Icon/IconContainer";
+import dynamic from "next/dynamic";
 
 type TSideContainer = { children?: React.ReactNode };
+
+const SideSearchWithNoSSR = dynamic(() => import("./search"), { ssr: false });
 
 export default function SideContainer({ children }: TSideContainer) {
   const [nowPos] = useRecoilState(nowPositionState);
@@ -17,7 +19,7 @@ export default function SideContainer({ children }: TSideContainer) {
         <Image alt="icon" src="/icon.png" width="25px" height="25px" />
         <Logo>리빙커뮤</Logo>
       </Header>
-      <SideSearch />
+      <SideSearchWithNoSSR />
       <Outer>
         <NowPosArea>
           <IconContainer

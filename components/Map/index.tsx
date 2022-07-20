@@ -1,14 +1,8 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { nowPositionState } from "../../stores/Map";
 import houseList from "../../dummy/houseList.json";
-
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
 
 interface MapProps {
   latitude: number;
@@ -17,8 +11,6 @@ interface MapProps {
 
 export default function Map({ latitude, longitude }: MapProps) {
   const [, setNowPos] = useRecoilState(nowPositionState);
-  const marker =
-    "<div style='width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50px; background: #0fae76; color: white; cursor: pointer;'>1</div>";
 
   useEffect(() => {
     const mapScript = document.createElement("script");
@@ -52,29 +44,43 @@ export default function Map({ latitude, longitude }: MapProps) {
           );
         };
 
+        const getHouseList = () => {
+          const level = localMap.getLevel();
+          if (level <= 5) {
+            houseList.map((house) => {
+              const marker =
+                "<div style='width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50px; background: #0fae76; color: white; cursor: pointer;'>1</div>";
+              const overlay = new kakao.maps.CustomOverlay({
+                content: marker,
+                map: localMap,
+                position: new kakao.maps.LatLng(
+                  house.coordinate.latitude,
+                  house.coordinate.longitude
+                ),
+              });
+
+              overlay.setMap(localMap);
+
+              kakao.maps.event.addListener(localMap, "zoom_changed", () => {
+                const level = localMap.getLevel();
+                level > 5 && overlay.setMap(null);
+              });
+            });
+          }
+        };
+
         getCenter();
+        getHouseList();
 
         kakao.maps.event.addListener(localMap, "center_changed", getCenter);
-
-        houseList.map((house) => {
-          const overlay = new kakao.maps.CustomOverlay({
-            content: marker,
-            map: localMap,
-            position: new kakao.maps.LatLng(
-              house.coordinate.latitude,
-              house.coordinate.longitude
-            ),
-          });
-
-          overlay.setMap(localMap);
-        });
+        kakao.maps.event.addListener(localMap, "zoom_changed", getHouseList);
       });
     };
 
     mapScript.addEventListener("load", onLoadKakaoMap);
 
     return () => mapScript.removeEventListener("load", onLoadKakaoMap);
-  }, [latitude, longitude, marker, setNowPos]);
+  }, [latitude, longitude, setNowPos]);
 
   return <MapContainer id="map" />;
 }
