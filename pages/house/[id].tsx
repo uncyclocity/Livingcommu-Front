@@ -10,7 +10,7 @@ export default function Index() {
   const houseData =
     houseList[houseList.findIndex((houseObj) => id && houseObj.id === +id)];
 
-  const header = <SideHouseDetailHeader title={houseData?.name} />;
+  const header = <SideHouseDetailHeader data={houseData} />;
 
   return (
     <>
