@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { nowPositionState } from "../../stores/Map";
 import houseList from "../../dummy/houseList.json";
+import { useRouter } from "next/router";
 
 interface MapProps {
   latitude: number;
@@ -11,6 +12,14 @@ interface MapProps {
 
 export default function Map({ latitude, longitude }: MapProps) {
   const [, setNowPos] = useRecoilState(nowPositionState);
+  const router = useRouter();
+
+  const handleViewHouseDetail = useCallback(
+    (id: number) => {
+      router.push(`/house/${id}`);
+    },
+    [router]
+  );
 
   useEffect(() => {
     const mapScript = document.createElement("script");
@@ -48,8 +57,9 @@ export default function Map({ latitude, longitude }: MapProps) {
           const level = localMap.getLevel();
           if (level <= 5) {
             houseList.map((house) => {
-              const marker =
-                "<div style='width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50px; background: #0fae76; color: white; cursor: pointer;'>1</div>";
+              const marker = `<div onclick='${handleViewHouseDetail(
+                house.id
+              )}' style='width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50px; background: #0fae76; color: white; cursor: pointer;'>1</div>`;
               const overlay = new kakao.maps.CustomOverlay({
                 content: marker,
                 map: localMap,
@@ -80,7 +90,7 @@ export default function Map({ latitude, longitude }: MapProps) {
     mapScript.addEventListener("load", onLoadKakaoMap);
 
     return () => mapScript.removeEventListener("load", onLoadKakaoMap);
-  }, [latitude, longitude, setNowPos]);
+  }, [handleViewHouseDetail, latitude, longitude, setNowPos]);
 
   return <MapContainer id="map" />;
 }
