@@ -1,5 +1,37 @@
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 
+@font-face {
+  font-family: "SBAggro";
+  font-weight: 300;
+  font-style: normal;
+  src: url("https://cdn.jsdelivr.net/gh/webfontworld/sandbox/SBAggroLight.eot");
+  src: url("https://cdn.jsdelivr.net/gh/webfontworld/sandbox/SBAggroLight.eot?#iefix")
+      format("embedded-opentype"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/sandbox/SBAggroLight.woff2")
+      format("woff2"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/sandbox/SBAggroLight.woff")
+      format("woff"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/sandbox/SBAggroLight.ttf")
+      format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SBAggro";
+  font-weight: 500;
+  font-style: normal;
+  src: url("https://cdn.jsdelivr.net/gh/webfontworld/sandbox/SBAggroMedium.eot");
+  src: url("https://cdn.jsdelivr.net/gh/webfontworld/sandbox/SBAggroMedium.eot?#iefix")
+      format("embedded-opentype"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/sandbox/SBAggroMedium.woff2")
+      format("woff2"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/sandbox/SBAggroMedium.woff")
+      format("woff"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/sandbox/SBAggroMedium.ttf")
+      format("truetype");
+  font-display: swap;
+}
+
 html,
 body {
   padding: 0;
@@ -13,5 +45,26 @@ a {
 
 * {
   box-sizing: border-box;
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
+}
+
+#marker {
+  width: 40px;
+  height: 40px;
+
+  padding: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50px;
+
+  font-size: 15px;
+  font-weight: bold;
+
+  background: #0fae76;
+  color: white;
+
+  cursor: pointer;
 }

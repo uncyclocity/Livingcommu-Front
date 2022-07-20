@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import "../styles/spoqa.css";
 import { RecoilRoot } from "recoil";
+import "../styles/Home.module.css";
 
 declare global {
   interface Window {
