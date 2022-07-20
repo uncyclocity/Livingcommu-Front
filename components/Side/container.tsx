@@ -15,16 +15,13 @@ export default function SideContainer({ header, children }: ISideContainer) {
 }
 
 const Container = styled.div`
-  width: 350px;
+  width: 400px;
   min-height: 200px;
 
-  margin: 30px;
+  margin-bottom: 15px;
 
   display: block;
   border-radius: 15px;
-
-  position: absolute;
-  z-index: 1000;
 
   background: white;
   box-shadow: 2px 2px 10px #b8b8b8;
