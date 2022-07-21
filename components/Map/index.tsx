@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { nowPositionState } from "../../stores/Map";
 import houseList from "../../dummy/houseList.json";
 import { useRouter } from "next/router";
+import userList from "../../dummy/userList.json";
 
 interface MapProps {
   latitude: number;
@@ -43,7 +44,7 @@ export default function Map({ latitude, longitude }: MapProps) {
 
         kakao.maps.localMap = localMap;
 
-        const getCenter = () => {
+        const handleCenterChanged = () => {
           const latlng = localMap.getCenter();
 
           geocoder.coord2Address(
@@ -51,9 +52,12 @@ export default function Map({ latitude, longitude }: MapProps) {
             latlng.getLat(),
             (address: any) => setNowPos(address[0])
           );
+
+          userList[0].lastSite.latitude = latlng.getLat();
+          userList[0].lastSite.longitude = latlng.getLng();
         };
 
-        const getHouseList = () => {
+        const handleZoomChanged = () => {
           const level = localMap.getLevel();
           if (level <= 5) {
             houseList.map((house) => {
@@ -80,11 +84,19 @@ export default function Map({ latitude, longitude }: MapProps) {
           }
         };
 
-        getCenter();
-        getHouseList();
+        handleCenterChanged();
+        handleZoomChanged();
 
-        kakao.maps.event.addListener(localMap, "center_changed", getCenter);
-        kakao.maps.event.addListener(localMap, "zoom_changed", getHouseList);
+        kakao.maps.event.addListener(
+          localMap,
+          "center_changed",
+          handleCenterChanged
+        );
+        kakao.maps.event.addListener(
+          localMap,
+          "zoom_changed",
+          handleZoomChanged
+        );
       });
     };
 
