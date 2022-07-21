@@ -1,9 +1,10 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import SideLayout from "../../layout/SideLayout";
 import houseList from "../../dummy/houseList.json";
+import houseScore from "../../dummy/houseScore.json";
 import SideHouseDetailHeader from "../../components/Side/houseDetailHeader";
 import SideContainer from "../../components/Side/container";
+import SideRate from "../../components/Side/rate";
 
 export default function Index() {
   const router = useRouter();
@@ -11,18 +12,22 @@ export default function Index() {
   const houseData =
     houseList[houseList.findIndex((houseObj) => id && houseObj.id === +id)];
 
+  const houseReviewData =
+    houseScore[
+      houseScore.findIndex((houseScoreObj) => id && houseScoreObj.id === +id)
+    ];
+
   const header = <SideHouseDetailHeader data={houseData} />;
 
   return (
     <>
       <Head>
-        <title>리빙커뮤</title>
-        <meta
-          name="description"
-          content="생생한 입주민의 이야기를 담은 커뮤니티, 리빙커뮤입니다."
-        />
+        <title>{houseData?.name} - 리빙커뮤</title>
+        <meta name="description" content={`${houseData?.type}도 리빙커뮤`} />
       </Head>
-      <SideContainer header={header}>test</SideContainer>
+      <SideContainer header={header}>
+        <SideRate data={houseReviewData} />
+      </SideContainer>
     </>
   );
 }

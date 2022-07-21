@@ -5,70 +5,60 @@
       {
         "userId": 1,
         "createdAt": "2022-04-19T14:06:56.247Z",
-        "scores": [
-          {
-            "noise": 4,
-            "transit": 4,
-            "commercial": 3,
-            "interrior": 4,
-            "clean": 5
-          }
-        ],
+        "scores": {
+          "noise": 4,
+          "transit": 4,
+          "commercial": 3,
+          "interrior": 4,
+          "clean": 5
+        },
         "message": "살기 좋았다."
       },
       {
         "userId": 1,
         "createdAt": "2022-04-19T14:06:56.247Z",
-        "scores": [
-          {
-            "noise": 4,
-            "transit": 4,
-            "commercial": 3,
-            "interrior": 4,
-            "clean": 5
-          }
-        ],
+        "scores": {
+          "noise": 3,
+          "transit": 2,
+          "commercial": 1,
+          "interrior": 4,
+          "clean": 4
+        },
         "message": "살기 좋았다."
       },
       {
         "userId": 1,
-        "scores": [
-          {
-            "noise": 4,
-            "transit": 4,
-            "commercial": 3,
-            "interrior": 4,
-            "clean": 5
-          }
-        ],
-        "message": "살기 좋았다."
-      },
-      {
-        "userId": 1,
-        "createdAt": "2022-04-19T14:06:56.247Z",
-        "scores": [
-          {
-            "noise": 4,
-            "transit": 4,
-            "commercial": 3,
-            "interrior": 4,
-            "clean": 5
-          }
-        ],
+        "scores": {
+          "noise": 5,
+          "transit": 1,
+          "commercial": 2,
+          "interrior": 2,
+          "clean": 3
+        },
         "message": "살기 좋았다."
       },
       {
         "userId": 1,
         "createdAt": "2022-04-19T14:06:56.247Z",
-        "scores": [
-          {
-            "noise": 4,
-            "transit": 4,
-            "commercial": 3,
-            "interrior": 4,
-            "clean": 5
-          }
-        ],
+        "scores": {
+          "noise": 4,
+          "transit": 4,
+          "commercial": 3,
+          "interrior": 4,
+          "clean": 5
+        },
+        "message": "살기 좋았다."
+      },
+      {
+        "userId": 1,
+        "createdAt": "2022-04-19T14:06:56.247Z",
+        "scores": {
+          "noise": 3,
+          "transit": 4,
+          "commercial": 2,
+          "interrior": 1,
+          "clean": 3
+        },
         "message": "살기 좋았다."
       }
     ]

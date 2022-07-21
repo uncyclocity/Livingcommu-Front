@@ -6,6 +6,7 @@ interface IHouseDetailHeader {
   data?: {
     name: string;
     address_old: { full: string };
+    type: string;
   };
 }
 
@@ -15,6 +16,7 @@ export default function SideHouseDetailHeader({ data }: IHouseDetailHeader) {
       <IconContainer icon={<IoArrowBackOutline />} size="22px" color="white" />
       <Center>
         <Title>{data?.name}</Title>
+        <Type>{data?.type}</Type>
         <Address>{data?.address_old.full}</Address>
       </Center>
       <IconContainer icon={<IoClose />} size="22px" color="white" />
@@ -47,17 +49,20 @@ const Center = styled.div`
 const Title = styled.div`
   color: white;
 
-  margin: 0 10px;
-
   font-weight: 500;
-  font-size: 20px;
+  font-size: 18px;
+`;
+
+const Type = styled.div`
+  color: white;
+
+  font-weight: 300;
+  font-size: 12px;
 `;
 
 const Address = styled.div`
   color: white;
 
-  margin: 0 10px;
-
   font-weight: 200;
-  font-size: 15px;
+  font-size: 12px;
 `;
