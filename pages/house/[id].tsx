@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import SideLayout from "../../layout/SideLayout";
 import houseList from "../../dummy/houseList.json";
 import SideHouseDetailHeader from "../../components/Side/houseDetailHeader";
+import SideContainer from "../../components/Side/container";
 
 export default function Index() {
   const router = useRouter();
@@ -21,7 +22,7 @@ export default function Index() {
           content="생생한 입주민의 이야기를 담은 커뮤니티, 리빙커뮤입니다."
         />
       </Head>
-      <SideLayout header={header}>test</SideLayout>
+      <SideContainer header={header}>test</SideContainer>
     </>
   );
 }

@@ -12,7 +12,6 @@ const Home: NextPage = () => {
           content="생생한 입주민의 이야기를 담은 커뮤니티, 리빙커뮤입니다."
         />
       </Head>
-      <SideLayout />
     </>
   );
 };

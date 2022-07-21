@@ -72,10 +72,6 @@ export default function Map({ latitude, longitude }: MapProps) {
 
               overlay.setMap(localMap);
 
-              kakao.maps.event.addListener(marker, "click", () =>
-                console.log("hi")
-              );
-
               kakao.maps.event.addListener(localMap, "zoom_changed", () => {
                 const level = localMap.getLevel();
                 level > 5 && overlay.setMap(null);

@@ -5,7 +5,6 @@ import SideAbsoluteOuter from "../components/Side/absoluteOuter";
 import SideContainer from "../components/Side/container";
 import SideLogoArea from "../components/Side/logoArea";
 import SideNowPosition from "../components/Side/nowPosition";
-import userList from "../dummy/userList.json";
 
 interface ISideLayout {
   children?: React.ReactNode;
@@ -17,8 +16,6 @@ const SideSearchWithNoSSR = dynamic(() => import("../components/Side/search"), {
 });
 
 export default function SideLayout({ children, header }: ISideLayout) {
-  const user = userList[0];
-
   const fixedCntHeader = (
     <>
       <SideLogoArea />
@@ -32,12 +29,8 @@ export default function SideLayout({ children, header }: ISideLayout) {
         <SideContainer header={fixedCntHeader}>
           <SideNowPosition />
         </SideContainer>
-        {children && <SideContainer header={header}>{children}</SideContainer>}
+        {children}
       </SideAbsoluteOuter>
-      <Map
-        latitude={user.lastSite.latitude}
-        longitude={user.lastSite.longitude}
-      />
     </>
   );
 }

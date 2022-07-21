@@ -114,6 +114,7 @@ const IconArea = styled.span`
 `;
 
 const Input = styled.input`
+  width: 100%;
   height: 100%;
 
   border-radius: 10px;
@@ -122,7 +123,7 @@ const Input = styled.input`
 `;
 
 const AutoComplete = styled.table`
-  width: 320px;
+  width: 370px;
   z-index: 100;
 
   position: absolute;
