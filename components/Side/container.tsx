@@ -28,5 +28,5 @@ const Container = styled.div`
 `;
 
 const Outer = styled.div`
-  padding: 5px 20px;
+  padding: 0 20px 10px 20px;
 `;

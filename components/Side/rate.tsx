@@ -2,6 +2,7 @@ import styled from "styled-components";
 import IconContainer from "../Icon/IconContainer";
 import { BsStarFill, BsStar, BsStarHalf } from "react-icons/bs";
 import { useCallback, useMemo } from "react";
+import { keyframes } from "styled-components";
 
 export default function SideRate({ data }: any) {
   const keys = useMemo(
@@ -16,7 +17,7 @@ export default function SideRate({ data }: any) {
   const unitAverageScore = useMemo(() => {
     let avgs = [0, 0, 0, 0, 0];
     data?.evaluation.map(({ scores }: any) => {
-      keys.map((key, index) => (avgs[index] += scores[key]));
+      keys.map((key: string, index: number) => (avgs[index] += scores[key]));
     });
     avgs = avgs.map((sum) => sum / data?.evaluation.length);
     return avgs;
@@ -41,15 +42,15 @@ export default function SideRate({ data }: any) {
       ["", "", "", "", ""].map((val, index) => {
         if (index + 1 < averageScore) {
           return (
-            <IconContainer icon={<BsStarFill />} size="18px" color="#efaf00" />
+            <IconContainer icon={<BsStarFill />} size="25px" color="#efaf00" />
           );
         } else if (index + 0.5 < averageScore) {
           return (
-            <IconContainer icon={<BsStarHalf />} size="18px" color="#efaf00" />
+            <IconContainer icon={<BsStarHalf />} size="25px" color="#efaf00" />
           );
         } else {
           return (
-            <IconContainer icon={<BsStar />} size="18px" color="#efaf00" />
+            <IconContainer icon={<BsStar />} size="25px" color="#efaf00" />
           );
         }
       }),
@@ -59,17 +60,24 @@ export default function SideRate({ data }: any) {
   return (
     <div>
       <AverageArea>
-        <span className="average-title">
+        <div className="average-title">
           전체 만족도 통계 ({data?.evaluation.length}개)
-        </span>
-        <span>
+        </div>
+        <div>
           <span className="score">{averageScore}</span>
           <span className="star">{averageStar()}</span>
-        </span>
+        </div>
       </AverageArea>
       <UnitRateArea>
+        <tr className="bar-area">
+          {unitAverageScore.map((score: number, index: number) => (
+            <td key={index}>
+              <UnitRateBar score={score} />
+            </td>
+          ))}
+        </tr>
         <tr>
-          {keys.map((key, index) => (
+          {keys.map((key: string, index: number) => (
             <UnitRate key={index}>
               <div className="score">{unitAverageScore[index]}</div>
               <div className="title">{keysKorean[index]}</div>
@@ -86,16 +94,18 @@ const AverageArea = styled.div`
   height: 50px;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+
+  margin-top: 20px;
 
   .average-title {
-    font-size: 12px;
-    font-weight: 400;
+    font-size: 13px;
+    font-weight: 500;
   }
 
   .score {
-    font-size: 20px;
+    font-size: 30px;
     font-weight: 500;
 
     color: #0fae76;
@@ -110,6 +120,33 @@ const AverageArea = styled.div`
 
 const UnitRateArea = styled.table`
   width: 100%;
+
+  .bar-area {
+    height: 150px;
+  }
+`;
+
+const barAnimation = (height: number) => keyframes`
+  0% {
+    height: 0px;
+    margin-top: 150px;
+  }
+
+  100% {
+    height: ${height}px;
+    margin-top: ${150 - height}px;
+  }
+`;
+
+const UnitRateBar = styled.div`
+  margin: 0 17px;
+
+  border-radius: 13px;
+
+  background-color: #0fae76;
+
+  animation: ${({ score }: { score: number }) => barAnimation(score * 30)} 0.8s
+    ease-in-out forwards;
 `;
 
 const UnitRate = styled.td`
@@ -117,7 +154,7 @@ const UnitRate = styled.td`
   text-align: center;
 
   .score {
-    font-size: 35px;
+    font-size: 30px;
     font-weight: 500;
 
     color: #0fae76;
@@ -125,9 +162,5 @@ const UnitRate = styled.td`
 
   .title {
     font-size: 12px;
-  }
-
-  & + * {
-    border-left: 0.5px solid #e9e9e9;
   }
 `;
