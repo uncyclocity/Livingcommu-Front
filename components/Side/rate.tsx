@@ -10,7 +10,7 @@ export default function SideRate({ data }: any) {
     []
   );
   const keysKorean = useMemo(
-    () => ["정숙", "교통", "상권", "인테리어", "청결도"],
+    () => ["정숙도", "교통", "상권", "인테리어", "청결도"],
     []
   );
 
@@ -69,21 +69,19 @@ export default function SideRate({ data }: any) {
         </div>
       </AverageArea>
       <UnitRateArea>
-        <tr className="bar-area">
-          {unitAverageScore.map((score: number, index: number) => (
-            <td key={index}>
+        {unitAverageScore.map((score: number, index: number) => (
+          <tr key={index} className="bar-area">
+            <td>
+              <UnitRate key={index}>
+                <span className="title">{keysKorean[index]}</span>
+                <span className="score">{unitAverageScore[index]}</span>
+              </UnitRate>
+            </td>
+            <td>
               <UnitRateBar score={score} />
             </td>
-          ))}
-        </tr>
-        <tr>
-          {keys.map((key: string, index: number) => (
-            <UnitRate key={index}>
-              <div className="score">{unitAverageScore[index]}</div>
-              <div className="title">{keysKorean[index]}</div>
-            </UnitRate>
-          ))}
-        </tr>
+          </tr>
+        ))}
       </UnitRateArea>
     </div>
   );
@@ -121,46 +119,52 @@ const AverageArea = styled.div`
 const UnitRateArea = styled.table`
   width: 100%;
 
+  margin: 15px 0;
+
   .bar-area {
-    height: 150px;
+    width: 150px;
   }
 `;
 
 const barAnimation = (height: number) => keyframes`
   0% {
-    height: 0px;
-    margin-top: 150px;
+    width: 0px;
+    margin-right: 232px;
   }
 
   100% {
-    height: ${height}px;
-    margin-top: ${150 - height}px;
+    width: ${height}px;
+    margin-right: ${232 - height}px;
   }
 `;
 
 const UnitRateBar = styled.div`
-  margin: 0 17px;
+  height: 10px;
 
   border-radius: 13px;
 
   background-color: #0fae76;
 
-  animation: ${({ score }: { score: number }) => barAnimation(score * 30)} 0.8s
-    ease-in-out forwards;
+  animation: ${({ score }: { score: number }) => barAnimation(score * 46.4)}
+    0.8s ease-in-out forwards;
 `;
 
 const UnitRate = styled.td`
-  width: 64px;
-  text-align: center;
+  display: flex;
+  align-items: center;
 
   .score {
-    font-size: 30px;
+    font-size: 20px;
     font-weight: 500;
 
     color: #0fae76;
   }
 
   .title {
-    font-size: 12px;
+    margin-right: 5px;
+
+    font-size: 13px;
+
+    color: #424242;
   }
 `;
