@@ -12,6 +12,7 @@
           "interrior": 4,
           "clean": 5
         },
+        "title": "삶의 질이 올라가는 집",
         "message": "살기 좋았다."
       },
       {
@@ -24,6 +25,7 @@
           "interrior": 4,
           "clean": 4
         },
+        "title": "삶의 질이 올라가는 집",
         "message": "살기 좋았다."
       },
       {
@@ -35,6 +37,7 @@
           "interrior": 2,
           "clean": 3
         },
+        "title": "삶의 질이 올라가는 집",
         "message": "살기 좋았다."
       },
       {
@@ -47,6 +50,7 @@
           "interrior": 4,
           "clean": 5
         },
+        "title": "삶의 질이 올라가는 집",
         "message": "살기 좋았다."
       },
       {
@@ -59,6 +63,7 @@
           "interrior": 1,
           "clean": 3
         },
+        "title": "삶의 질이 올라가는 집",
         "message": "살기 좋았다."
       }
     ]

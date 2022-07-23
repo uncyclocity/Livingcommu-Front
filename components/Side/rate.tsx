@@ -103,7 +103,7 @@ const AverageArea = styled.div`
   }
 
   .score {
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 500;
 
     color: #0fae76;

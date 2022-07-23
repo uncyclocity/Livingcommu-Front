@@ -5,6 +5,7 @@ import houseScore from "../../dummy/houseScore.json";
 import SideHouseDetailHeader from "../../components/Side/houseDetailHeader";
 import SideContainer from "../../components/Side/container";
 import SideRate from "../../components/Side/rate";
+import SideReview from "../../components/Side/review";
 
 export default function Index() {
   const router = useRouter();
@@ -27,6 +28,7 @@ export default function Index() {
       </Head>
       <SideContainer header={header}>
         <SideRate data={houseReviewData} />
+        <SideReview data={houseReviewData} />
       </SideContainer>
     </>
   );
