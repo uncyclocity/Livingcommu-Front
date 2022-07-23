@@ -3,8 +3,9 @@ import IconContainer from "../Icon/IconContainer";
 import { BsStarFill, BsStar, BsStarHalf } from "react-icons/bs";
 import { useCallback, useMemo } from "react";
 import { keyframes } from "styled-components";
+import { IHouseScore } from "../../type/houseScore";
 
-export default function SideRate({ data }: any) {
+export default function SideRate({ data }: { data: IHouseScore }) {
   const keys = useMemo(
     () => ["noise", "transit", "commercial", "interrior", "clean"],
     []
@@ -16,7 +17,8 @@ export default function SideRate({ data }: any) {
 
   const unitAverageScore = useMemo(() => {
     let avgs = [0, 0, 0, 0, 0];
-    data?.evaluation.map(({ scores }: any) => {
+    data?.evaluation.map(({ scores }: { scores: any }) => {
+      console.log(scores);
       keys.map((key: string, index: number) => (avgs[index] += scores[key]));
     });
     avgs = avgs.map((sum) => sum / data?.evaluation.length);

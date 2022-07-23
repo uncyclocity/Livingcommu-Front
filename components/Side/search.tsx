@@ -15,37 +15,42 @@ interface IAutoComplete {
 export default function SideSearch() {
   const [search, setSearch] = useState("");
   const [viewClear, setViewClear] = useState(false);
-  const [autoComplete, setAutoComplete] = useState<IAutoComplete | any>([]);
-  const { kakao } = window;
+  const [autoComplete, setAutoComplete] = useState<IAutoComplete[]>([]);
 
-  const handleSearch = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
+  const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    if (typeof window !== "undefined") {
+      const { kakao } = window;
       const geocoder = new kakao.maps.services.Geocoder();
 
       setSearch(e.target.value);
 
-      geocoder.addressSearch(e.target.value, (res: any, status: any) => {
-        if (status === kakao.maps.services.Status.OK) {
-          setAutoComplete(res);
-        } else {
-          setAutoComplete([]);
+      geocoder.addressSearch(
+        e.target.value,
+        (res: IAutoComplete[], status: string) => {
+          if (status === kakao.maps.services.Status.OK) {
+            setAutoComplete(res);
+          } else {
+            setAutoComplete([]);
+          }
         }
-      });
-    },
-    [kakao]
-  );
+      );
+    }
+  }, []);
 
   const handleMove = useCallback(
     (index: number) => {
-      const coords = new kakao.maps.LatLng(
-        autoComplete[index].y,
-        autoComplete[index].x
-      );
-      kakao.maps.localMap.setCenter(coords);
-      setAutoComplete([]);
-      setSearch("");
+      if (typeof window !== "undefined") {
+        const { kakao } = window;
+        const coords = new kakao.maps.LatLng(
+          autoComplete[index].y,
+          autoComplete[index].x
+        );
+        kakao.maps.localMap.setCenter(coords);
+        setAutoComplete([]);
+        setSearch("");
+      }
     },
-    [autoComplete, kakao.maps.LatLng, kakao.maps.localMap]
+    [autoComplete]
   );
 
   const handleClear = useCallback(() => setSearch(""), []);

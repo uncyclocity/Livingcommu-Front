@@ -5,6 +5,7 @@ import { nowPositionState } from "../../stores/Map";
 import houseList from "../../dummy/houseList.json";
 import { useRouter } from "next/router";
 import userList from "../../dummy/userList.json";
+import { TNowPosition } from "../../type/nowPosition";
 
 interface MapProps {
   latitude: number;
@@ -23,86 +24,87 @@ export default function Map({ latitude, longitude }: MapProps) {
   );
 
   useEffect(() => {
-    const mapScript = document.createElement("script");
+    if (typeof window !== "undefined") {
+      const mapScript = document.createElement("script");
+      mapScript.async = true;
+      mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_APPKEY}&autoload=false&libraries=services`;
 
-    mapScript.async = true;
-    mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_APPKEY}&autoload=false&libraries=services`;
+      document.head.appendChild(mapScript);
 
-    document.head.appendChild(mapScript);
+      const onLoadKakaoMap = () => {
+        const container = document.getElementById("map");
+        const { kakao } = window;
 
-    const onLoadKakaoMap = () => {
-      const { kakao } = window;
-      const container = document.getElementById("map");
+        kakao.maps.load(() => {
+          const options = {
+            center: new kakao.maps.LatLng(latitude, longitude),
+            level: 3,
+          };
+          const localMap = new kakao.maps.Map(container, options);
+          const geocoder = new kakao.maps.services.Geocoder();
 
-      kakao.maps.load(() => {
-        const options = {
-          center: new kakao.maps.LatLng(latitude, longitude),
-          level: 3,
-        };
-        const localMap = new kakao.maps.Map(container, options);
-        const geocoder = new kakao.maps.services.Geocoder();
+          kakao.maps.localMap = localMap;
 
-        kakao.maps.localMap = localMap;
+          const handleCenterChanged = () => {
+            const latlng = localMap.getCenter();
 
-        const handleCenterChanged = () => {
-          const latlng = localMap.getCenter();
+            geocoder.coord2Address(
+              latlng.getLng(),
+              latlng.getLat(),
+              (address: TNowPosition[]) => setNowPos(address[0])
+            );
 
-          geocoder.coord2Address(
-            latlng.getLng(),
-            latlng.getLat(),
-            (address: any) => setNowPos(address[0])
+            userList[0].lastSite.latitude = latlng.getLat();
+            userList[0].lastSite.longitude = latlng.getLng();
+          };
+
+          const handleZoomChanged = () => {
+            const level = localMap.getLevel();
+            if (level <= 5) {
+              houseList.map((house) => {
+                const marker = document.createElement("div");
+                marker.id = "marker";
+                marker.onclick = () => handleViewHouseDetail(house.id);
+                marker.textContent = "1";
+                const overlay = new kakao.maps.CustomOverlay({
+                  content: marker,
+                  map: localMap,
+                  position: new kakao.maps.LatLng(
+                    house.coordinate.latitude,
+                    house.coordinate.longitude
+                  ),
+                });
+
+                overlay.setMap(localMap);
+
+                kakao.maps.event.addListener(localMap, "zoom_changed", () => {
+                  const level = localMap.getLevel();
+                  level > 5 && overlay.setMap(null);
+                });
+              });
+            }
+          };
+
+          handleCenterChanged();
+          handleZoomChanged();
+
+          kakao.maps.event.addListener(
+            localMap,
+            "center_changed",
+            handleCenterChanged
           );
+          kakao.maps.event.addListener(
+            localMap,
+            "zoom_changed",
+            handleZoomChanged
+          );
+        });
+      };
 
-          userList[0].lastSite.latitude = latlng.getLat();
-          userList[0].lastSite.longitude = latlng.getLng();
-        };
+      mapScript.addEventListener("load", onLoadKakaoMap);
 
-        const handleZoomChanged = () => {
-          const level = localMap.getLevel();
-          if (level <= 5) {
-            houseList.map((house) => {
-              const marker = document.createElement("div");
-              marker.id = "marker";
-              marker.onclick = () => handleViewHouseDetail(house.id);
-              marker.textContent = "1";
-              const overlay = new kakao.maps.CustomOverlay({
-                content: marker,
-                map: localMap,
-                position: new kakao.maps.LatLng(
-                  house.coordinate.latitude,
-                  house.coordinate.longitude
-                ),
-              });
-
-              overlay.setMap(localMap);
-
-              kakao.maps.event.addListener(localMap, "zoom_changed", () => {
-                const level = localMap.getLevel();
-                level > 5 && overlay.setMap(null);
-              });
-            });
-          }
-        };
-
-        handleCenterChanged();
-        handleZoomChanged();
-
-        kakao.maps.event.addListener(
-          localMap,
-          "center_changed",
-          handleCenterChanged
-        );
-        kakao.maps.event.addListener(
-          localMap,
-          "zoom_changed",
-          handleZoomChanged
-        );
-      });
-    };
-
-    mapScript.addEventListener("load", onLoadKakaoMap);
-
-    return () => mapScript.removeEventListener("load", onLoadKakaoMap);
+      return () => mapScript.removeEventListener("load", onLoadKakaoMap);
+    }
   }, [handleViewHouseDetail, latitude, longitude, setNowPos]);
 
   return <MapContainer id="map" />;

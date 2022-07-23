@@ -2,10 +2,11 @@ import dayjs from "dayjs";
 import { BsStarFill } from "react-icons/bs";
 import { RiDoubleQuotesL } from "react-icons/ri";
 import styled from "styled-components";
+import { IHouseScore, IScores } from "../../type/houseScore";
 import IconContainer from "../Icon/IconContainer";
 
-export default function SideReview({ data }: any) {
-  const scoreAvgs = data?.evaluation.map(({ scores }: any) => {
+export default function SideReview({ data }: { data: IHouseScore }) {
+  const scoreAvgs = data?.evaluation.map(({ scores }: { scores: any }) => {
     const scoreArr = Object.keys(scores).map((key: string) => scores[key]);
     return scoreArr.reduce((sum: number, current: number) => sum + current) / 5;
   });
