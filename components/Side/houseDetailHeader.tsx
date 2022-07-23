@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+import { useCallback } from "react";
 import { IoArrowBackOutline, IoClose } from "react-icons/io5";
 import styled from "styled-components";
 import IconContainer from "../Icon/IconContainer";
@@ -11,22 +13,45 @@ interface IHouseDetailHeader {
 }
 
 export default function SideHouseDetailHeader({ data }: IHouseDetailHeader) {
+  const router = useRouter();
+
+  const handleGoBack = useCallback(() => router.back(), [router]);
+  const handleCancel = useCallback(() => router.push("/"), [router]);
+
   return (
     <Container>
-      <IconContainer icon={<IoArrowBackOutline />} size="22px" color="white" />
-      <Center>
-        <Title>{data?.name}</Title>
-        <Type>{data?.type}</Type>
-        <Address>{data?.address_old.full}</Address>
-      </Center>
-      <IconContainer icon={<IoClose />} size="22px" color="white" />
+      <Header>
+        <div onClick={handleGoBack}>
+          <IconContainer
+            icon={<IoArrowBackOutline />}
+            size="22px"
+            color="white"
+          />
+        </div>
+        <Center>
+          <Title>{data?.name}</Title>
+          <Type>{data?.type}</Type>
+          <Address>{data?.address_old.full}</Address>
+        </Center>
+        <div onClick={handleCancel}>
+          <IconContainer icon={<IoClose />} size="22px" color="white" />
+        </div>
+      </Header>
     </Container>
   );
 }
 
-const Container = styled.header`
+const Container = styled.div`
   width: 100%;
   height: 80px;
+`;
+
+const Header = styled.header`
+  width: 100%;
+  height: 80px;
+
+  position: fixed;
+  z-index: 100;
 
   padding: 0 20px;
 

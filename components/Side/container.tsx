@@ -17,6 +17,9 @@ export default function SideContainer({ header, children }: ISideContainer) {
 const Container = styled.div`
   width: 360px;
   min-height: 200px;
+  max-height: calc(100vh - 288px);
+
+  overflow-y: auto;
 
   margin-bottom: 15px;
 
