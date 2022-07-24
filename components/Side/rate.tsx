@@ -7,6 +7,7 @@ import { IHouseScore } from "../../type/houseScore";
 import {
   getAverageScore,
   getUnitAverageScore,
+  keysKorean,
 } from "../../lib/getAverageScore";
 
 type TSideRate = { reviewData: IHouseScore };
@@ -16,11 +17,6 @@ export default function SideRate({ reviewData }: TSideRate) {
   const unitAverageScore: number[] = useMemo(
     () => getUnitAverageScore(reviewData),
     [reviewData]
-  );
-
-  const keysKorean = useMemo(
-    () => ["정숙도", "교통", "상권", "인테리어", "청결도"],
-    []
   );
 
   const averageStar = useCallback(

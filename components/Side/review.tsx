@@ -3,9 +3,10 @@ import { BsStarFill } from "react-icons/bs";
 import { RiDoubleQuotesL } from "react-icons/ri";
 import { FaUser } from "react-icons/fa";
 import styled from "styled-components";
-import { IHouseScore, IScores } from "../../type/houseScore";
+import { IHouseScore } from "../../type/houseScore";
 import IconContainer from "../Icon/IconContainer";
 import { IUser } from "../../type/userList";
+import { keys, keysKorean } from "../../lib/getAverageScore";
 
 interface ISideReview {
   reviewData: IHouseScore;
@@ -58,6 +59,17 @@ export default function SideReview({ reviewData, userListData }: ISideReview) {
                 {dayjs(evaluation?.createdAt).format("YYYY. MM")}
               </span>
             </div>
+            <table>
+              <tr className="unit-rating-area">
+                {keys &&
+                  keys.map((key: string, index: number) => (
+                    <td key={key} className="unit-rating">
+                      <div className="title">{keysKorean[index]}</div>
+                      <div className="score">{evaluation?.scores[key]}</div>
+                    </td>
+                  ))}
+              </tr>
+            </table>
             <IconContainer
               icon={<RiDoubleQuotesL />}
               size="23px"
@@ -141,5 +153,39 @@ const UnitReview = styled.div`
 
     font-size: 15px;
     font-weight: 300;
+  }
+
+  .unit-rating-area {
+    width: 100%;
+
+    padding: 8px 10px;
+
+    margin: 13px 0 10px 0;
+
+    display: flex;
+
+    border-radius: 10px;
+
+    background: #f6f6f6;
+  }
+
+  .unit-rating {
+    width: 60px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .title {
+      font-size: 12px;
+    }
+
+    .score {
+      font-size: 25px;
+      font-weight: 500;
+
+      color: #0fae76;
+    }
   }
 `;
