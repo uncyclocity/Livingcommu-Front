@@ -128,7 +128,7 @@ const Input = styled.input`
 `;
 
 const AutoComplete = styled.table`
-  width: 370px;
+  width: 330px;
   z-index: 100;
 
   position: absolute;

@@ -24,14 +24,14 @@ export default function Map({ latitude, longitude }: MapProps) {
   );
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const mapScript = document.createElement("script");
-      mapScript.async = true;
-      mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_APPKEY}&autoload=false&libraries=services`;
+    const mapScript = document.createElement("script");
+    mapScript.async = true;
+    mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_APPKEY}&autoload=false&libraries=services`;
 
-      document.head.appendChild(mapScript);
+    document.head.appendChild(mapScript);
 
-      const onLoadKakaoMap = () => {
+    const onLoadKakaoMap = () => {
+      if (typeof window !== "undefined") {
         const container = document.getElementById("map");
         const { kakao } = window;
 
@@ -99,12 +99,12 @@ export default function Map({ latitude, longitude }: MapProps) {
             handleZoomChanged
           );
         });
-      };
+      }
+    };
 
-      mapScript.addEventListener("load", onLoadKakaoMap);
+    mapScript.addEventListener("load", onLoadKakaoMap);
 
-      return () => mapScript.removeEventListener("load", onLoadKakaoMap);
-    }
+    return () => mapScript.removeEventListener("load", onLoadKakaoMap);
   }, [handleViewHouseDetail, latitude, longitude, setNowPos]);
 
   return <MapContainer id="map" />;

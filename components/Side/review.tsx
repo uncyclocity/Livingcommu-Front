@@ -26,7 +26,7 @@ export default function SideReview({ data }: { data: IHouseScore }) {
                 size="15px"
                 color="#0fae76"
               />
-              <span className="score-avg">{scoreAvgs[index]}</span>
+              <span className="score-avg">{scoreAvgs[index].toFixed(1)}</span>
             </span>
             <span className="date">
               {dayjs(evaluation?.createdAt).format("YYYY. MM")}
@@ -77,7 +77,9 @@ const UnitReview = styled.div`
     margin: 0 8px;
 
     font-size: 25px;
-    font-weight: 400;
+    font-weight: 500;
+
+    color: #0fae76;
   }
 
   .date {

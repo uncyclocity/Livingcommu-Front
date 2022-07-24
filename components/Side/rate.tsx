@@ -66,7 +66,7 @@ export default function SideRate({ data }: { data: IHouseScore }) {
           전체 만족도 통계 ({data?.evaluation.length}개)
         </div>
         <div>
-          <span className="score">{averageScore}</span>
+          <span className="score">{averageScore.toFixed(1)}</span>
           <span className="star">{averageStar()}</span>
         </div>
       </AverageArea>
@@ -76,7 +76,9 @@ export default function SideRate({ data }: { data: IHouseScore }) {
             <td>
               <UnitRate key={index}>
                 <span className="title">{keysKorean[index]}</span>
-                <span className="score">{unitAverageScore[index]}</span>
+                <span className="score">
+                  {unitAverageScore[index].toFixed(1)}
+                </span>
               </UnitRate>
             </td>
             <td>
@@ -165,7 +167,7 @@ const UnitRate = styled.td`
   .title {
     margin-right: 5px;
 
-    font-size: 13px;
+    font-size: 11px;
 
     color: #424242;
   }
