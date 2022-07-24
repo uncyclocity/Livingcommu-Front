@@ -23,7 +23,7 @@ export default function SideHouseDetailHeader({
   return (
     <Container>
       <Header>
-        <div onClick={handleGoBack}>
+        <div className="lr-btn" onClick={handleGoBack}>
           <IconContainer
             icon={<IoArrowBackOutline />}
             size="22px"
@@ -36,7 +36,7 @@ export default function SideHouseDetailHeader({
           <Type>{houseListData?.type}</Type>
           <Address>{houseListData?.address_old.full}</Address>
         </Center>
-        <div onClick={handleCancel}>
+        <div className="lr-btn" onClick={handleCancel}>
           <IconContainer
             icon={<IoClose />}
             size="22px"
@@ -69,6 +69,10 @@ const Header = styled.header`
   align-items: center;
 
   background: #0fae76;
+
+  .lr-btn {
+    cursor: pointer;
+  }
 `;
 
 const Center = styled.div`

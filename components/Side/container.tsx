@@ -20,6 +20,7 @@ const Container = styled.div`
   max-height: calc(100vh - 288px);
 
   overflow-y: auto;
+  scrollbar-width: none;
 
   margin-bottom: 15px;
 

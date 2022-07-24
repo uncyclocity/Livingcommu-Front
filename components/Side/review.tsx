@@ -160,7 +160,7 @@ const UnitReview = styled.div`
 
     padding: 8px 10px;
 
-    margin: 13px 0 10px 0;
+    margin: 13px 0 8px 0;
 
     display: flex;
 
