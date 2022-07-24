@@ -9,7 +9,12 @@ export default function SideNowPosition() {
 
   return (
     <NowPosArea>
-      <IconContainer icon={<IoMdNavigate />} size={"15px"} color="#0fae76;" />
+      <IconContainer
+        icon={<IoMdNavigate />}
+        size={"15px"}
+        color="#0fae76;"
+        top={2.5}
+      />
       <NowPosTopTitle>지금 이곳은?</NowPosTopTitle>
       <br />
       {nowPos &&

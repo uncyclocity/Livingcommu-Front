@@ -8,10 +8,10 @@ export interface IScores {
 
 export interface IEvaluation {
   userId: number;
-  createdAt: Date;
+  createdAt: Date | string;
   scores: IScores;
   title: string;
-  message: string;
+  message: string[];
 }
 
 export interface IHouseScore {

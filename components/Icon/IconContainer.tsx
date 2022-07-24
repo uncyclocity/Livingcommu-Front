@@ -3,17 +3,24 @@ import styled, { css } from "styled-components";
 interface IIconContainer {
   icon: React.ReactNode;
   size: string;
+  top: number;
   color?: string;
 }
 
 interface IContainerStyle {
   size: string;
   color?: string;
+  top: number;
 }
 
-export default function IconContainer({ icon, size, color }: IIconContainer) {
+export default function IconContainer({
+  icon,
+  size,
+  color,
+  top,
+}: IIconContainer) {
   return (
-    <Container size={size} color={color}>
+    <Container size={size} color={color} top={top}>
       {icon}
     </Container>
   );
@@ -24,7 +31,7 @@ const Container = styled.span<IContainerStyle>`
   max-height: ${({ size }: { size: string }) => size};
 
   position: relative;
-  top: 2.5px;
+  top: ${({ top }: { top: number }) => top}px;
 
   display: inline-block;
 

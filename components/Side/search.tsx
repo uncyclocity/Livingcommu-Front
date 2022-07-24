@@ -61,7 +61,12 @@ export default function SideSearch() {
       onMouseLeave={() => setViewClear(false)}
     >
       <IconArea>
-        <IconContainer icon={<BiSearch />} size="20px" color="#0fae76" />
+        <IconContainer
+          icon={<BiSearch />}
+          size="20px"
+          color="#0fae76"
+          top={2.5}
+        />
       </IconArea>
       <Input
         type="text"
@@ -84,6 +89,7 @@ export default function SideSearch() {
                   }
                   size="17px"
                   color="#0fae76"
+                  top={2.5}
                 />
               </td>
               <td>{searchWord.address_name}</td>
@@ -93,7 +99,12 @@ export default function SideSearch() {
       )}
       {viewClear && (
         <IconArea onClick={handleClear}>
-          <IconContainer icon={<MdCancel />} size="15px" color="#969faf" />
+          <IconContainer
+            icon={<MdCancel />}
+            size="15px"
+            color="#969faf"
+            top={2.5}
+          />
         </IconArea>
       )}
     </Container>

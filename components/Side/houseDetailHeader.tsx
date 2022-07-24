@@ -5,14 +5,16 @@ import styled from "styled-components";
 import IconContainer from "../Icon/IconContainer";
 
 interface IHouseDetailHeader {
-  data?: {
+  houseListData?: {
     name: string;
     address_old: { full: string };
     type: string;
   };
 }
 
-export default function SideHouseDetailHeader({ data }: IHouseDetailHeader) {
+export default function SideHouseDetailHeader({
+  houseListData,
+}: IHouseDetailHeader) {
   const router = useRouter();
 
   const handleGoBack = useCallback(() => router.back(), [router]);
@@ -26,15 +28,21 @@ export default function SideHouseDetailHeader({ data }: IHouseDetailHeader) {
             icon={<IoArrowBackOutline />}
             size="22px"
             color="white"
+            top={2.5}
           />
         </div>
         <Center>
-          <Title>{data?.name}</Title>
-          <Type>{data?.type}</Type>
-          <Address>{data?.address_old.full}</Address>
+          <Title>{houseListData?.name}</Title>
+          <Type>{houseListData?.type}</Type>
+          <Address>{houseListData?.address_old.full}</Address>
         </Center>
         <div onClick={handleCancel}>
-          <IconContainer icon={<IoClose />} size="22px" color="white" />
+          <IconContainer
+            icon={<IoClose />}
+            size="22px"
+            color="white"
+            top={2.5}
+          />
         </div>
       </Header>
     </Container>

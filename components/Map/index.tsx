@@ -3,9 +3,11 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { nowPositionState } from "../../stores/Map";
 import houseList from "../../dummy/houseList.json";
+import houseScore from "../../dummy/houseScore.json";
 import { useRouter } from "next/router";
 import userList from "../../dummy/userList.json";
 import { TNowPosition } from "../../type/nowPosition";
+import { getAverageScore } from "../../lib/getAverageScore";
 
 interface MapProps {
   latitude: number;
@@ -61,11 +63,24 @@ export default function Map({ latitude, longitude }: MapProps) {
           const handleZoomChanged = () => {
             const level = localMap.getLevel();
             if (level <= 5) {
-              houseList.map((house) => {
+              houseList.map((house, index) => {
                 const marker = document.createElement("div");
+                const houseReviewData =
+                  houseScore[
+                    houseScore.findIndex(
+                      (houseScoreObj) =>
+                        house.id && houseScoreObj.id === +house.id
+                    )
+                  ];
+
                 marker.id = "marker";
                 marker.onclick = () => handleViewHouseDetail(house.id);
-                marker.textContent = "1";
+                console.log(houseReviewData);
+                marker.innerHTML = `<div>${
+                  house.type
+                }</div><div id="score">★ ${getAverageScore(
+                  houseReviewData
+                )}</div>`;
                 const overlay = new kakao.maps.CustomOverlay({
                   content: marker,
                   map: localMap,

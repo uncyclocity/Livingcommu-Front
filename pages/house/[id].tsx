@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import houseList from "../../dummy/houseList.json";
 import houseScore from "../../dummy/houseScore.json";
+import userList from "../../dummy/userList.json";
 import SideHouseDetailHeader from "../../components/Side/houseDetailHeader";
 import SideContainer from "../../components/Side/container";
 import SideRate from "../../components/Side/rate";
@@ -18,7 +19,7 @@ export default function Index() {
       houseScore.findIndex((houseScoreObj) => id && houseScoreObj.id === +id)
     ];
 
-  const header = <SideHouseDetailHeader data={houseData} />;
+  const header = <SideHouseDetailHeader houseListData={houseData} />;
 
   return (
     <>
@@ -27,8 +28,8 @@ export default function Index() {
         <meta name="description" content={`${houseData?.type}도 리빙커뮤`} />
       </Head>
       <SideContainer header={header}>
-        <SideRate data={houseReviewData} />
-        <SideReview data={houseReviewData} />
+        <SideRate reviewData={houseReviewData} />
+        <SideReview reviewData={houseReviewData} userListData={userList} />
       </SideContainer>
     </>
   );

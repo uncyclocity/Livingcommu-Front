@@ -4,39 +4,23 @@ import { BsStarFill, BsStar, BsStarHalf } from "react-icons/bs";
 import { useCallback, useMemo } from "react";
 import { keyframes } from "styled-components";
 import { IHouseScore } from "../../type/houseScore";
+import {
+  getAverageScore,
+  getUnitAverageScore,
+} from "../../lib/getAverageScore";
 
-export default function SideRate({ data }: { data: IHouseScore }) {
-  const keys = useMemo(
-    () => ["noise", "transit", "commercial", "interrior", "clean"],
-    []
+type TSideRate = { reviewData: IHouseScore };
+
+export default function SideRate({ reviewData }: TSideRate) {
+  const averageScore = useMemo(() => getAverageScore(reviewData), [reviewData]);
+  const unitAverageScore: number[] = useMemo(
+    () => getUnitAverageScore(reviewData),
+    [reviewData]
   );
+
   const keysKorean = useMemo(
     () => ["정숙도", "교통", "상권", "인테리어", "청결도"],
     []
-  );
-
-  const unitAverageScore = useMemo(() => {
-    let avgs = [0, 0, 0, 0, 0];
-    data?.evaluation.map(({ scores }: { scores: any }) => {
-      console.log(scores);
-      keys.map((key: string, index: number) => (avgs[index] += scores[key]));
-    });
-    avgs = avgs.map((sum) => sum / data?.evaluation.length);
-    return avgs;
-  }, [data?.evaluation, keys]);
-
-  const averageScore = useMemo(
-    () =>
-      data?.evaluation
-        .map(
-          ({ scores }: any) =>
-            Object.keys(scores)
-              .map((key) => scores[key])
-              .reduce((sum: number, current: number) => sum + current) / 5
-        )
-        .reduce((sum: number, current: number) => sum + current) /
-      data?.evaluation.length,
-    [data?.evaluation]
   );
 
   const averageStar = useCallback(
@@ -44,15 +28,30 @@ export default function SideRate({ data }: { data: IHouseScore }) {
       ["", "", "", "", ""].map((val, index) => {
         if (index + 1 < averageScore) {
           return (
-            <IconContainer icon={<BsStarFill />} size="25px" color="#efaf00" />
+            <IconContainer
+              icon={<BsStarFill />}
+              size="25px"
+              color="#efaf00"
+              top={2.5}
+            />
           );
         } else if (index + 0.5 < averageScore) {
           return (
-            <IconContainer icon={<BsStarHalf />} size="25px" color="#efaf00" />
+            <IconContainer
+              icon={<BsStarHalf />}
+              size="25px"
+              color="#efaf00"
+              top={2.5}
+            />
           );
         } else {
           return (
-            <IconContainer icon={<BsStar />} size="25px" color="#efaf00" />
+            <IconContainer
+              icon={<BsStar />}
+              size="25px"
+              color="#efaf00"
+              top={2.5}
+            />
           );
         }
       }),
@@ -63,7 +62,7 @@ export default function SideRate({ data }: { data: IHouseScore }) {
     <div>
       <AverageArea>
         <div className="average-title">
-          전체 만족도 통계 ({data?.evaluation.length}개)
+          전체 만족도 통계 ({reviewData?.evaluation.length}개)
         </div>
         <div>
           <span className="score">{averageScore.toFixed(1)}</span>
@@ -165,9 +164,12 @@ const UnitRate = styled.td`
   }
 
   .title {
+    width: 45px;
+
     margin-right: 5px;
 
-    font-size: 11px;
+    font-size: 12px;
+    text-align: right;
 
     color: #424242;
   }
