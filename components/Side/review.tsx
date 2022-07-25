@@ -7,6 +7,7 @@ import { IHouseScore } from "../../type/houseScore";
 import IconContainer from "../Icon/IconContainer";
 import { IUser } from "../../type/userList";
 import { keys, keysKorean } from "../../lib/getAverageScore";
+import { useRouter } from "next/router";
 
 interface ISideReview {
   reviewData: IHouseScore;
@@ -14,6 +15,8 @@ interface ISideReview {
 }
 
 export default function SideReview({ reviewData, userListData }: ISideReview) {
+  const router = useRouter();
+
   const scoreAvgs = reviewData?.evaluation.map(
     ({ scores }: { scores: any }) => {
       const scoreArr = Object.keys(scores).map((key: string) => scores[key]);
@@ -26,9 +29,17 @@ export default function SideReview({ reviewData, userListData }: ISideReview) {
   return (
     <>
       <TotalReview>
-        리뷰 후기&nbsp;
-        <span className="review-total-cnt">
-          {reviewData?.evaluation.length}
+        <span>
+          리뷰 후기&nbsp;
+          <span className="review-total-cnt">
+            {reviewData?.evaluation.length}
+          </span>
+        </span>
+        <span
+          className="write-review-btn"
+          onClick={() => router.push(`/house/${reviewData.id}/writing`)}
+        >
+          리뷰 작성하기
         </span>
       </TotalReview>
       {reviewData?.evaluation.map((evaluation: any, index: number) => {
@@ -98,12 +109,33 @@ const TotalReview = styled.div`
 
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   font-size: 13px;
   font-weight: 400;
 
   .review-total-cnt {
     color: #0fae76;
+  }
+
+  .write-review-btn {
+    padding: 5px 10px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    color: white;
+
+    &:hover {
+      transition: 0.15s all ease-in;
+      background: #0c7a53;
+    }
+
+    &:not(:hover) {
+      transition: 0.15s all ease-in;
+      background: #0fae76;
+    }
   }
 `;
 
@@ -159,7 +191,6 @@ const UnitReview = styled.div`
     width: 100%;
 
     padding: 8px 10px;
-
     margin: 13px 0 8px 0;
 
     display: flex;

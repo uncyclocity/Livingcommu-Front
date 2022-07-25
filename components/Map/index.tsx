@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { nowPositionState } from "../../stores/Map";
 import houseList from "../../dummy/houseList.json";
 import houseScore from "../../dummy/houseScore.json";
-import userDefaultSetList from "../../dummy/userDefaultSet.json";
 import { useRouter } from "next/router";
 import { TNowPosition } from "../../type/nowPosition";
 import { getAverageScore } from "../../lib/getAverageScore";
@@ -17,8 +16,7 @@ interface MapProps {
 
 export default function Map({ latitude, longitude }: MapProps) {
   const [, setNowPos] = useRecoilState(nowPositionState);
-  const [userDefaultSet, setUserDefaultSet] =
-    useRecoilState(userDefaultSetState);
+  const [, setUserDefaultSet] = useRecoilState(userDefaultSetState);
   const router = useRouter();
 
   const handleViewHouseDetail = useCallback(
@@ -130,7 +128,13 @@ export default function Map({ latitude, longitude }: MapProps) {
 
     return () => mapScript.removeEventListener("load", onLoadKakaoMap);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [handleViewHouseDetail, setNowPos, setUserDefaultSet]);
+  }, [
+    handleViewHouseDetail,
+    setNowPos,
+    setUserDefaultSet,
+    latitude,
+    longitude,
+  ]);
 
   return <MapContainer id="map" />;
 }

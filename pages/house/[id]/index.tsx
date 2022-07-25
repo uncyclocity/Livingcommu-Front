@@ -1,12 +1,12 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import houseList from "../../dummy/houseList.json";
-import houseScore from "../../dummy/houseScore.json";
-import userList from "../../dummy/userList.json";
-import SideHouseDetailHeader from "../../components/Side/houseDetailHeader";
-import SideContainer from "../../components/Side/container";
-import SideRate from "../../components/Side/rate";
-import SideReview from "../../components/Side/review";
+import houseList from "../../../dummy/houseList.json";
+import houseScore from "../../../dummy/houseScore.json";
+import userList from "../../../dummy/userList.json";
+import SideHouseDetailHeader from "../../../components/Side/houseDetailHeader";
+import SideContainer from "../../../components/Side/container";
+import SideRate from "../../../components/Side/rate";
+import SideReview from "../../../components/Side/review";
 
 export default function Index() {
   const router = useRouter();

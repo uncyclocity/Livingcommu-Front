@@ -1,3 +1,4 @@
+import React from "react";
 import { IHouseScore } from "../type/houseScore";
 
 export const keysKorean = ["정숙도", "교통", "상권", "인테리어", "청결도"];
@@ -23,3 +24,33 @@ export const getAverageScore = (reviewData: IHouseScore) =>
     )
     .reduce((sum: number, current: number) => sum + current) /
   reviewData?.evaluation.length;
+
+export const getAverageStar = (
+  averageScore: number,
+  fill: React.ReactElement,
+  half: React.ReactElement,
+  empty: React.ReactElement
+) =>
+  ["", "", "", "", ""].map((val, index) => {
+    if (index + 1 <= averageScore) {
+      return fill;
+    } else if (index + 0.5 < averageScore) {
+      return half;
+    } else {
+      return empty;
+    }
+  });
+
+export const getAverageStarClickable = (
+  averageScore: number,
+  index: number,
+  fill: (index: number, score: number) => React.ReactElement,
+  empty: (index: number, score: number) => React.ReactElement
+) =>
+  [1, 2, 3, 4, 5].map((score) => {
+    if (score <= averageScore) {
+      return fill(index, score);
+    } else {
+      return empty(index, score);
+    }
+  });

@@ -6,11 +6,24 @@ import { keyframes } from "styled-components";
 import { IHouseScore } from "../../type/houseScore";
 import {
   getAverageScore,
+  getAverageStar,
   getUnitAverageScore,
   keysKorean,
 } from "../../lib/getAverageScore";
 
 type TSideRate = { reviewData: IHouseScore };
+
+const fill = (
+  <IconContainer icon={<BsStarFill />} size="25px" color="#efaf00" top={2.5} />
+);
+
+const half = (
+  <IconContainer icon={<BsStarHalf />} size="25px" color="#efaf00" top={2.5} />
+);
+
+const empty = (
+  <IconContainer icon={<BsStar />} size="25px" color="#efaf00" top={2.5} />
+);
 
 export default function SideRate({ reviewData }: TSideRate) {
   const averageScore = useMemo(() => getAverageScore(reviewData), [reviewData]);
@@ -19,40 +32,7 @@ export default function SideRate({ reviewData }: TSideRate) {
     [reviewData]
   );
 
-  const averageStar = useCallback(
-    () =>
-      ["", "", "", "", ""].map((val, index) => {
-        if (index + 1 < averageScore) {
-          return (
-            <IconContainer
-              icon={<BsStarFill />}
-              size="25px"
-              color="#efaf00"
-              top={2.5}
-            />
-          );
-        } else if (index + 0.5 < averageScore) {
-          return (
-            <IconContainer
-              icon={<BsStarHalf />}
-              size="25px"
-              color="#efaf00"
-              top={2.5}
-            />
-          );
-        } else {
-          return (
-            <IconContainer
-              icon={<BsStar />}
-              size="25px"
-              color="#efaf00"
-              top={2.5}
-            />
-          );
-        }
-      }),
-    [averageScore]
-  );
+  const averageStar = getAverageStar(averageScore, fill, half, empty);
 
   return (
     <div>
@@ -62,7 +42,7 @@ export default function SideRate({ reviewData }: TSideRate) {
         </div>
         <div>
           <span className="score">{averageScore.toFixed(1)}</span>
-          <span className="star">{averageStar()}</span>
+          <span className="star">{averageStar}</span>
         </div>
       </AverageArea>
       <UnitRateArea>
