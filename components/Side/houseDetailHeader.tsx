@@ -51,9 +51,6 @@ export default function SideHouseDetailHeader({
           <Title>{houseListData?.name}</Title>
           <Type>{houseListData?.type}</Type>
           <Address>
-            {userDefaultSet.addressType === "old"
-              ? houseListData?.address_old.full
-              : houseListData?.address_load.full}
             <Switch type={userDefaultSet.addressType}>
               <span
                 className="btn l"
@@ -68,6 +65,9 @@ export default function SideHouseDetailHeader({
                 도로명
               </span>
             </Switch>
+            {userDefaultSet.addressType === "old"
+              ? houseListData?.address_old.full
+              : houseListData?.address_load.full}
           </Address>
         </Center>
         <div className="lr-btn" onClick={handleCancel}>

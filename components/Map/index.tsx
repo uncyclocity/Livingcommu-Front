@@ -129,13 +129,8 @@ export default function Map({ latitude, longitude }: MapProps) {
     mapScript.addEventListener("load", onLoadKakaoMap);
 
     return () => mapScript.removeEventListener("load", onLoadKakaoMap);
-  }, [
-    handleViewHouseDetail,
-    setNowPos,
-    setUserDefaultSet,
-    longitude,
-    latitude,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handleViewHouseDetail, setNowPos, setUserDefaultSet]);
 
   return <MapContainer id="map" />;
 }
