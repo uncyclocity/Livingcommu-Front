@@ -4,10 +4,11 @@ import styled from "styled-components";
 import { nowPositionState } from "../../stores/Map";
 import houseList from "../../dummy/houseList.json";
 import houseScore from "../../dummy/houseScore.json";
+import userDefaultSetList from "../../dummy/userDefaultSet.json";
 import { useRouter } from "next/router";
-import userList from "../../dummy/userList.json";
 import { TNowPosition } from "../../type/nowPosition";
 import { getAverageScore } from "../../lib/getAverageScore";
+import { userDefaultSetState } from "../../stores/UserDefaultSet";
 
 interface MapProps {
   latitude: number;
@@ -16,6 +17,8 @@ interface MapProps {
 
 export default function Map({ latitude, longitude }: MapProps) {
   const [, setNowPos] = useRecoilState(nowPositionState);
+  const [userDefaultSet, setUserDefaultSet] =
+    useRecoilState(userDefaultSetState);
   const router = useRouter();
 
   const handleViewHouseDetail = useCallback(
@@ -50,14 +53,21 @@ export default function Map({ latitude, longitude }: MapProps) {
           const handleCenterChanged = () => {
             const latlng = localMap.getCenter();
 
+            const newLastSite = {
+              latitude: latlng.getLat(),
+              longitude: latlng.getLng(),
+            };
+
             geocoder.coord2Address(
               latlng.getLng(),
               latlng.getLat(),
               (address: TNowPosition[]) => setNowPos(address[0])
             );
 
-            userList[0].lastSite.latitude = latlng.getLat();
-            userList[0].lastSite.longitude = latlng.getLng();
+            setUserDefaultSet((prev) => ({
+              ...prev,
+              lastSite: newLastSite,
+            }));
           };
 
           const handleZoomChanged = () => {
@@ -75,7 +85,6 @@ export default function Map({ latitude, longitude }: MapProps) {
 
                 marker.id = "marker";
                 marker.onclick = () => handleViewHouseDetail(house.id);
-                console.log(houseReviewData);
                 marker.innerHTML = `<div>${
                   house.type
                 }</div><div id="score">★ ${getAverageScore(
@@ -120,7 +129,13 @@ export default function Map({ latitude, longitude }: MapProps) {
     mapScript.addEventListener("load", onLoadKakaoMap);
 
     return () => mapScript.removeEventListener("load", onLoadKakaoMap);
-  }, [handleViewHouseDetail, latitude, longitude, setNowPos]);
+  }, [
+    handleViewHouseDetail,
+    setNowPos,
+    setUserDefaultSet,
+    longitude,
+    latitude,
+  ]);
 
   return <MapContainer id="map" />;
 }

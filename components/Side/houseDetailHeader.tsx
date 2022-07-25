@@ -1,24 +1,40 @@
 import { useRouter } from "next/router";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { IoArrowBackOutline, IoClose } from "react-icons/io5";
-import styled from "styled-components";
+import { useRecoilState } from "recoil";
+import styled, { css } from "styled-components";
+import { userDefaultSetState } from "../../stores/UserDefaultSet";
 import IconContainer from "../Icon/IconContainer";
 
 interface IHouseDetailHeader {
   houseListData?: {
     name: string;
     address_old: { full: string };
+    address_load: { full: string };
     type: string;
   };
+}
+
+interface IAddrSwitch {
+  type: string;
 }
 
 export default function SideHouseDetailHeader({
   houseListData,
 }: IHouseDetailHeader) {
+  const [userDefaultSet, setUserDefauleSet] =
+    useRecoilState(userDefaultSetState);
+
   const router = useRouter();
 
   const handleGoBack = useCallback(() => router.back(), [router]);
   const handleCancel = useCallback(() => router.push("/"), [router]);
+
+  const handleChangeAddrType = useCallback(
+    (addressType: "old" | "load") =>
+      setUserDefauleSet({ ...userDefaultSet, addressType }),
+    [setUserDefauleSet, userDefaultSet]
+  );
 
   return (
     <Container>
@@ -34,7 +50,25 @@ export default function SideHouseDetailHeader({
         <Center>
           <Title>{houseListData?.name}</Title>
           <Type>{houseListData?.type}</Type>
-          <Address>{houseListData?.address_old.full}</Address>
+          <Address>
+            {userDefaultSet.addressType === "old"
+              ? houseListData?.address_old.full
+              : houseListData?.address_load.full}
+            <Switch type={userDefaultSet.addressType}>
+              <span
+                className="btn l"
+                onClick={() => handleChangeAddrType("old")}
+              >
+                지번
+              </span>
+              <span
+                className="btn r"
+                onClick={() => handleChangeAddrType("load")}
+              >
+                도로명
+              </span>
+            </Switch>
+          </Address>
         </Center>
         <div className="lr-btn" onClick={handleCancel}>
           <IconContainer
@@ -51,12 +85,12 @@ export default function SideHouseDetailHeader({
 
 const Container = styled.div`
   width: 100%;
-  height: 80px;
+  height: 95px;
 `;
 
 const Header = styled.header`
   width: 100%;
-  height: 80px;
+  height: 95px;
 
   position: fixed;
   z-index: 100;
@@ -98,8 +132,55 @@ const Type = styled.div`
 `;
 
 const Address = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   color: white;
 
   font-weight: 200;
   font-size: 12px;
+`;
+
+const Switch = styled.div<IAddrSwitch>`
+  border-radius: 5px;
+  margin: 3px;
+
+  .btn {
+    width: 20px;
+
+    padding: 0 3px;
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    &.l {
+      border-radius: 5px 0 0 5px;
+
+      ${({ type }: IAddrSwitch) =>
+        type === "old"
+          ? css`
+              background: #20c997;
+            `
+          : css`
+              background: #0c7a53;
+              color: #bbbbbb;
+            `}
+    }
+
+    &.r {
+      border-radius: 0 5px 5px 0;
+
+      ${({ type }: IAddrSwitch) =>
+        type === "load"
+          ? css`
+              background: #20c997;
+            `
+          : css`
+              background: #0c7a53;
+              color: #bbbbbb;
+            `}
+    }
+  }
 `;
