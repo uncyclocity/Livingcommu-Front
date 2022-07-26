@@ -2,13 +2,14 @@ import dayjs from "dayjs";
 import { BsStarFill } from "react-icons/bs";
 import { RiDoubleQuotesL } from "react-icons/ri";
 import { FaUser } from "react-icons/fa";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { IHouseScore } from "../../type/houseScore";
 import IconContainer from "../Icon/IconContainer";
 import { IUser } from "../../type/userList";
 import { keys, keysKorean } from "../../lib/getAverageScore";
 import { useRouter } from "next/router";
 import Button from "../Button";
+import { useRef, useState } from "react";
 
 interface ISideReview {
   reviewData: IHouseScore;
@@ -52,6 +53,8 @@ export default function SideReview({ reviewData, userListData }: ISideReview) {
               (userData) => userData.id === evaluation.userId
             )
           ];
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const contentRef = useRef<any>(null);
         return (
           <UnitReview key={evaluation.id}>
             <div className="avg-area">
@@ -91,13 +94,23 @@ export default function SideReview({ reviewData, userListData }: ISideReview) {
               top={2.5}
             />
             <div className="title">{evaluation.title}</div>
-            <div className="content">
-              {evaluation.message.map((content: string, index: number) => (
-                <>
-                  <span>{content}</span>
-                  <br />
-                </>
-              ))}
+            <div className="content-area not-show" ref={contentRef}>
+              <div className="content">
+                {evaluation.message.map((content: string, msgIdx: number) => (
+                  <>
+                    <span>{content}</span>
+                    <br />
+                  </>
+                ))}
+              </div>
+              <div
+                className="view-more"
+                onClick={() => {
+                  contentRef.current.classList = ["content-area"];
+                }}
+              >
+                ...더 보기
+              </div>
             </div>
           </UnitReview>
         );
@@ -163,11 +176,37 @@ const UnitReview = styled.div`
     font-weight: 500;
   }
 
-  .content {
-    overflow-y: hidden;
+  .content-area {
+    .content {
+      overflow-y: hidden;
 
-    font-size: 15px;
-    font-weight: 300;
+      font-size: 15px;
+      font-weight: 300;
+    }
+
+    .view-more {
+      display: none;
+    }
+
+    &.not-show {
+      .content {
+        height: 61px;
+      }
+
+      .view-more {
+        display: initial;
+        cursor: pointer;
+
+        color: #bbbbbb;
+
+        font-size: 15px;
+        font-weight: 300;
+
+        &:hover {
+          color: #0fae76;
+        }
+      }
+    }
   }
 
   .unit-rating-area {
