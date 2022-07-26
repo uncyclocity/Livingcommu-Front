@@ -8,6 +8,7 @@ import IconContainer from "../Icon/IconContainer";
 import { IUser } from "../../type/userList";
 import { keys, keysKorean } from "../../lib/getAverageScore";
 import { useRouter } from "next/router";
+import Button from "../Button";
 
 interface ISideReview {
   reviewData: IHouseScore;
@@ -35,12 +36,14 @@ export default function SideReview({ reviewData, userListData }: ISideReview) {
             {reviewData?.evaluation.length}
           </span>
         </span>
-        <span
-          className="write-review-btn"
+        <Button
+          inner="리뷰 작성하기"
+          bgColor="#0fae76"
+          textColor="white"
+          paddingX="10px"
+          paddingY="5px"
           onClick={() => router.push(`/house/${reviewData.id}/writing`)}
-        >
-          리뷰 작성하기
-        </span>
+        />
       </TotalReview>
       {reviewData?.evaluation.map((evaluation: any, index: number) => {
         const userData =
@@ -116,26 +119,6 @@ const TotalReview = styled.div`
 
   .review-total-cnt {
     color: #0fae76;
-  }
-
-  .write-review-btn {
-    padding: 5px 10px;
-
-    border-radius: 5px;
-
-    cursor: pointer;
-
-    color: white;
-
-    &:hover {
-      transition: 0.15s all ease-in;
-      background: #0c7a53;
-    }
-
-    &:not(:hover) {
-      transition: 0.15s all ease-in;
-      background: #0fae76;
-    }
   }
 `;
 

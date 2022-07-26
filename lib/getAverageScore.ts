@@ -1,9 +1,30 @@
 import React from "react";
 import { IHouseScore } from "../type/houseScore";
 
+export interface IReviewScore {
+  noise: number;
+  transit: number;
+  commercial: number;
+  interrior: number;
+  clean: number;
+}
+
+export type TReviewScore =
+  | "noise"
+  | "transit"
+  | "commercial"
+  | "interrior"
+  | "clean";
+
 export const keysKorean = ["정숙도", "교통", "상권", "인테리어", "청결도"];
 
-export const keys = ["noise", "transit", "commercial", "interrior", "clean"];
+export const keys: TReviewScore[] = [
+  "noise",
+  "transit",
+  "commercial",
+  "interrior",
+  "clean",
+];
 
 export const getUnitAverageScore = (reviewData: IHouseScore) => {
   let avgs = [0, 0, 0, 0, 0];
