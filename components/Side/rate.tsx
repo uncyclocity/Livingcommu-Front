@@ -49,7 +49,7 @@ export default function SideRate({ reviewData }: TSideRate) {
         {unitAverageScore.map((score: number, index: number) => (
           <tr key={index} className="bar-area">
             <td>
-              <UnitRate key={index}>
+              <UnitRate>
                 <span className="title">{keysKorean[index]}</span>
                 <span className="score">
                   {unitAverageScore[index].toFixed(1)}

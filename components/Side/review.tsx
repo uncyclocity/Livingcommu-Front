@@ -98,7 +98,7 @@ export default function SideReview({ reviewData, userListData }: ISideReview) {
               <div className="content">
                 {evaluation.message.map((content: string, msgIdx: number) => (
                   <>
-                    <span>{content}</span>
+                    <span key={msgIdx}>{content}</span>
                     <br />
                   </>
                 ))}

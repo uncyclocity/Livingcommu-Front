@@ -1,10 +1,12 @@
 import dynamic from "next/dynamic";
 import React from "react";
+import styled from "styled-components";
 import Map from "../components/Map";
 import SideAbsoluteOuter from "../components/Side/absoluteOuter";
 import SideContainer from "../components/Side/container";
 import SideLogoArea from "../components/Side/logoArea";
 import SideNowPosition from "../components/Side/nowPosition";
+import SideProfile from "../components/Side/profile";
 
 interface ISideLayout {
   children?: React.ReactNode;
@@ -26,11 +28,24 @@ export default function SideLayout({ children, header }: ISideLayout) {
   return (
     <>
       <SideAbsoluteOuter>
-        <SideContainer header={fixedCntHeader}>
-          <SideNowPosition />
-        </SideContainer>
-        {children}
+        <Flex>
+          <div>
+            <SideContainer header={fixedCntHeader}>
+              <SideNowPosition />
+            </SideContainer>
+            {children}
+          </div>
+          <div>
+            <SideProfile />
+          </div>
+        </Flex>
       </SideAbsoluteOuter>
     </>
   );
 }
+
+const Flex = styled.div`
+  width: calc(100vw - 60px);
+  display: flex;
+  justify-content: space-between;
+`;
