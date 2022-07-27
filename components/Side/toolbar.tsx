@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { TiPlus, TiMinus } from "react-icons/ti";
-import { MdGpsFixed } from "react-icons/md";
+import { MdGpsFixed, MdAddBusiness, MdFilterAlt } from "react-icons/md";
 
 export default function SideToolbar() {
   return (
@@ -15,6 +15,12 @@ export default function SideToolbar() {
       </PlusMinusArea>
       <Btn>
         <MdGpsFixed />
+      </Btn>
+      <Btn>
+        <MdFilterAlt />
+      </Btn>
+      <Btn>
+        <MdAddBusiness />
       </Btn>
     </>
   );

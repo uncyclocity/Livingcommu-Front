@@ -1,7 +1,6 @@
 import dynamic from "next/dynamic";
 import React from "react";
 import styled from "styled-components";
-import Map from "../components/Map";
 import SideAbsoluteOuter from "../components/Side/absoluteOuter";
 import SideContainer from "../components/Side/container";
 import SideLogoArea from "../components/Side/logoArea";
@@ -48,8 +47,15 @@ export default function SideLayout({ children, header }: ISideLayout) {
 
 const Flex = styled.div`
   width: calc(100vw - 60px);
+
   display: flex;
   justify-content: space-between;
+
+  pointer-events: none;
+
+  & > * {
+    pointer-events: initial;
+  }
 `;
 
 const Toolbar = styled.div`

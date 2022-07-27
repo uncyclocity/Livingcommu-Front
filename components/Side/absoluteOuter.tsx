@@ -9,6 +9,10 @@ export default function SideAbsoluteOuter({ children }: TAbsoluteOuter) {
 
 const Outer = styled.div`
   margin: 30px;
+
   position: absolute;
+
   z-index: 1000;
+
+  pointer-events: none;
 `;
