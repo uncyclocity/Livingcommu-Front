@@ -24,4 +24,6 @@ const ProfilePhoto = styled.div`
   color: white;
   background: #0fae76;
   box-shadow: 1px 1px 3px #b8b8b8;
+
+  cursor: pointer;
 `;

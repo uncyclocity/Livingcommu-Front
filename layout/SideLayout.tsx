@@ -7,6 +7,7 @@ import SideContainer from "../components/Side/container";
 import SideLogoArea from "../components/Side/logoArea";
 import SideNowPosition from "../components/Side/nowPosition";
 import SideProfile from "../components/Side/profile";
+import SideToolbar from "../components/Side/toolbar";
 
 interface ISideLayout {
   children?: React.ReactNode;
@@ -35,9 +36,10 @@ export default function SideLayout({ children, header }: ISideLayout) {
             </SideContainer>
             {children}
           </div>
-          <div>
+          <Toolbar>
             <SideProfile />
-          </div>
+            <SideToolbar />
+          </Toolbar>
         </Flex>
       </SideAbsoluteOuter>
     </>
@@ -48,4 +50,10 @@ const Flex = styled.div`
   width: calc(100vw - 60px);
   display: flex;
   justify-content: space-between;
+`;
+
+const Toolbar = styled.div`
+  & > div + * {
+    margin: 10px 0;
+  }
 `;
