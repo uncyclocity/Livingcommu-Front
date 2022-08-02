@@ -1,25 +1,51 @@
 import styled from "styled-components";
 import { TiPlus, TiMinus } from "react-icons/ti";
 import { MdGpsFixed, MdAddBusiness, MdFilterAlt } from "react-icons/md";
+import { useCallback } from "react";
 
 export default function SideToolbar() {
+  const handleChangeLevel = useCallback((addNum: number) => {
+    if (typeof window !== "undefined") {
+      const map = window.kakao.maps.localMap;
+      const level = map.getLevel();
+      map.setLevel(level + addNum);
+    }
+  }, []);
+
+  const handleNowLocation = useCallback(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((pos) => {
+        const { kakao } = window;
+        const map = kakao.maps.localMap;
+
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+
+        const locPos = new kakao.maps.LatLng(lat, lon);
+        map.setCenter(locPos);
+      });
+    }
+  }, []);
+
+  const handleReady = useCallback(() => alert("준비중입니다."), []);
+
   return (
     <>
       <PlusMinusArea>
-        <Plus>
+        <Plus onClick={() => handleChangeLevel(-1)}>
           <TiPlus />
         </Plus>
-        <Minus>
+        <Minus onClick={() => handleChangeLevel(1)}>
           <TiMinus />
         </Minus>
       </PlusMinusArea>
-      <Btn>
+      <Btn onClick={handleNowLocation}>
         <MdGpsFixed />
       </Btn>
-      <Btn>
+      <Btn onClick={handleReady}>
         <MdFilterAlt />
       </Btn>
-      <Btn>
+      <Btn onClick={handleReady}>
         <MdAddBusiness />
       </Btn>
     </>

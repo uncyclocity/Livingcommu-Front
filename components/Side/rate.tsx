@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import IconContainer from "../Icon/IconContainer";
 import { BsStarFill, BsStar, BsStarHalf } from "react-icons/bs";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { keyframes } from "styled-components";
 import { IHouseScore } from "../../type/houseScore";
 import {

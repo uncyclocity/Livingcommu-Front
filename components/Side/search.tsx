@@ -144,7 +144,7 @@ const AutoComplete = styled.table`
 
   position: absolute;
   top: 115px;
-  right: 15px;
+  left: 15px;
 
   border-radius: 5px;
 

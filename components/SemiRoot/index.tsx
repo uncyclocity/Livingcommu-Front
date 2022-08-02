@@ -10,8 +10,7 @@ type TStore = { children: React.ReactElement };
 
 export default function SemiRoot({ children }: TStore) {
   const [, setUser] = useRecoilState(userState);
-  const [userDefaultSet, setUserDefaultSet] =
-    useRecoilState(userDefaultSetState);
+  const [, setUserDefaultSet] = useRecoilState(userDefaultSetState);
 
   useEffect(() => {
     setUser(userList[0]);

@@ -87,7 +87,7 @@ export default function Map({ latitude, longitude }: MapProps) {
                   house.type
                 }</div><div id="score">★ ${getAverageScore(
                   houseReviewData
-                )}</div>`;
+                ).toFixed(1)}</div>`;
                 const overlay = new kakao.maps.CustomOverlay({
                   content: marker,
                   map: localMap,
