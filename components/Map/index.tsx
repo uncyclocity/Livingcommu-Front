@@ -8,15 +8,12 @@ import { useRouter } from "next/router";
 import { TNowPosition } from "../../type/nowPosition";
 import { getAverageScore } from "../../lib/getAverageScore";
 import { userDefaultSetState } from "../../stores/UserDefaultSet";
+import userDefaultSetList from "../../dummy/userDefaultSet.json";
 
-interface MapProps {
-  latitude: number;
-  longitude: number;
-}
-
-export default function Map({ latitude, longitude }: MapProps) {
+export default function Map() {
   const [, setNowPos] = useRecoilState(nowPositionState);
-  const [, setUserDefaultSet] = useRecoilState(userDefaultSetState);
+  const [userDefaultSet, setUserDefaultSet] =
+    useRecoilState(userDefaultSetState);
   const router = useRouter();
 
   const handleViewHouseDetail = useCallback(
@@ -39,10 +36,15 @@ export default function Map({ latitude, longitude }: MapProps) {
         const { kakao } = window;
 
         kakao.maps.load(() => {
-          const options = {
-            center: new kakao.maps.LatLng(latitude, longitude),
-            level: 3,
-          };
+          const { latitude, longitude } =
+            userDefaultSetList[0].userDefaultSet.lastSite;
+
+          const options: any = { level: 3 };
+
+          if (location.pathname === "/") {
+            options.center = new kakao.maps.LatLng(latitude, longitude);
+          }
+
           const localMap = new kakao.maps.Map(container, options);
           const geocoder = new kakao.maps.services.Geocoder();
 
@@ -127,14 +129,7 @@ export default function Map({ latitude, longitude }: MapProps) {
     mapScript.addEventListener("load", onLoadKakaoMap);
 
     return () => mapScript.removeEventListener("load", onLoadKakaoMap);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    handleViewHouseDetail,
-    setNowPos,
-    setUserDefaultSet,
-    latitude,
-    longitude,
-  ]);
+  }, [handleViewHouseDetail, setNowPos, setUserDefaultSet]);
 
   return <MapContainer id="map" />;
 }

@@ -20,10 +20,7 @@ export default function SemiRoot({ children }: TStore) {
   return (
     <div>
       {children}
-      <Map
-        latitude={userDefaultSetList[0].userDefaultSet.lastSite.latitude}
-        longitude={userDefaultSetList[0].userDefaultSet.lastSite.longitude}
-      />
+      <Map />
     </div>
   );
 }

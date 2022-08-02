@@ -45,9 +45,6 @@ export default function SideToolbar() {
       <Btn onClick={handleReady}>
         <MdFilterAlt />
       </Btn>
-      <Btn onClick={handleReady}>
-        <MdAddBusiness />
-      </Btn>
     </>
   );
 }

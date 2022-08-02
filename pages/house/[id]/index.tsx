@@ -7,19 +7,43 @@ import SideHouseDetailHeader from "../../../components/Side/houseDetailHeader";
 import SideContainer from "../../../components/Side/container";
 import SideRate from "../../../components/Side/rate";
 import SideReview from "../../../components/Side/review";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { userDefaultSetState } from "../../../stores/UserDefaultSet";
 
 export default function Index() {
   const router = useRouter();
   const { id } = router.query;
-  const houseData =
-    houseList[houseList.findIndex((houseObj) => id && houseObj.id === +id)];
+  const houseData = houseList.find((houseObj) => id && houseObj.id === +id);
 
-  const houseReviewData =
-    houseScore[
-      houseScore.findIndex((houseScoreObj) => id && houseScoreObj.id === +id)
-    ];
+  const [, setUserDefaultSet] = useRecoilState(userDefaultSetState);
+
+  const houseReviewData = houseScore.find(
+    (houseScoreObj) => id && houseScoreObj.id === +id
+  );
 
   const header = <SideHouseDetailHeader houseListData={houseData} />;
+
+  useEffect(() => {
+    if (!houseData) return;
+
+    const { kakao } = window;
+    const map = kakao.maps.localMap;
+
+    const latitude = houseData.coordinate.latitude;
+    const longitude = houseData.coordinate.longitude;
+
+    setUserDefaultSet((prev) => ({
+      ...prev,
+      lastSite: {
+        latitude,
+        longitude,
+      },
+    }));
+
+    const locPos = new kakao.maps.LatLng(latitude, longitude);
+    map.setCenter(locPos);
+  }, [houseData, setUserDefaultSet]);
 
   return (
     <>
