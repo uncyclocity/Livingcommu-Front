@@ -29,6 +29,8 @@ const Container = styled.div`
 
   background: white;
   box-shadow: 2px 2px 10px #b8b8b8;
+
+  pointer-events: initial;
 `;
 
 const Outer = styled.div`

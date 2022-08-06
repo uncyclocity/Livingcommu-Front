@@ -115,7 +115,7 @@ const NowPosTopTitle = styled.span`
 
 const NowPosArea = styled.div`
   width: 100%;
-  height: 65px;
+  height: 70px;
 
   font-weight: bold;
   font-size: 20px;

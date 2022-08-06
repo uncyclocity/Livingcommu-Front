@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { TiPlus, TiMinus } from "react-icons/ti";
-import { MdGpsFixed, MdAddBusiness, MdFilterAlt } from "react-icons/md";
+import { MdGpsFixed, MdAddBusiness, MdFilterAlt, MdAdd } from "react-icons/md";
 import { useCallback } from "react";
 
 export default function SideToolbar() {
