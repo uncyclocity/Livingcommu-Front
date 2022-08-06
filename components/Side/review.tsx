@@ -9,7 +9,7 @@ import { IUser } from "../../type/userList";
 import { keys, keysKorean } from "../../lib/getAverageScore";
 import { useRouter } from "next/router";
 import Button from "../Button";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ISideReview {
   reviewData: IHouseScore;
@@ -55,6 +55,13 @@ export default function SideReview({ reviewData, userListData }: ISideReview) {
           ];
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const contentRef = useRef<any>(null);
+
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        useEffect(() => {
+          if (contentRef.current && contentRef.current.clientHeight > 61) {
+            contentRef.current.classList = ["content-area not-show"];
+          }
+        }, []);
         return (
           <UnitReview key={evaluation.id}>
             <div className="avg-area">
@@ -94,7 +101,7 @@ export default function SideReview({ reviewData, userListData }: ISideReview) {
               top={2.5}
             />
             <div className="title">{evaluation.title}</div>
-            <div className="content-area not-show" ref={contentRef}>
+            <div className="content-area" ref={contentRef}>
               <div className="content">
                 {evaluation.message.map((content: string, msgIdx: number) => (
                   <>
@@ -103,14 +110,16 @@ export default function SideReview({ reviewData, userListData }: ISideReview) {
                   </>
                 ))}
               </div>
-              <div
-                className="view-more"
-                onClick={() => {
-                  contentRef.current.classList = ["content-area"];
-                }}
-              >
-                ...더 보기
-              </div>
+              {
+                <div
+                  className="view-more"
+                  onClick={() => {
+                    contentRef.current.classList = ["content-area"];
+                  }}
+                >
+                  ...더 보기
+                </div>
+              }
             </div>
           </UnitReview>
         );
