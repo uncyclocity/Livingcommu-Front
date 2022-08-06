@@ -8,7 +8,7 @@ export default function SideAbsoluteOuter({ children }: TAbsoluteOuter) {
 }
 
 const Outer = styled.div`
-  margin: 30px;
+  margin: 30px 30px 15px 30px;
 
   position: absolute;
 
