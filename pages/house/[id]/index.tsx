@@ -52,8 +52,12 @@ export default function Index() {
         <meta name="description" content={`${houseData?.type}도 리빙커뮤`} />
       </Head>
       <SideContainer header={header}>
-        <SideRate reviewData={houseReviewData} />
-        <SideReview reviewData={houseReviewData} userListData={userList} />
+        {houseReviewData && userList && (
+          <>
+            <SideRate reviewData={houseReviewData} />
+            <SideReview reviewData={houseReviewData} userListData={userList} />
+          </>
+        )}
       </SideContainer>
     </>
   );

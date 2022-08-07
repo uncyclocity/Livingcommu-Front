@@ -1,14 +1,19 @@
 import styled from "styled-components";
 import { TiPlus } from "react-icons/ti";
+import { useRouter } from "next/router";
 
 export default function SideAddHouse() {
+  const router = useRouter();
+
   return (
-    <AddHouseToolbarArea>
-      <Btn>
-        <TiPlus />
-        주택 등록하기
-      </Btn>
-    </AddHouseToolbarArea>
+    <>
+      <AddHouseToolbarArea>
+        <Btn onClick={() => router.push("house/add")}>
+          <TiPlus />
+          주택 등록하기
+        </Btn>
+      </AddHouseToolbarArea>
+    </>
   );
 }
 

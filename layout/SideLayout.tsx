@@ -14,9 +14,12 @@ interface ISideLayout {
   header?: React.ReactNode;
 }
 
-const SideSearchWithNoSSR = dynamic(() => import("../components/Side/search"), {
-  ssr: false,
-});
+const SideSearchWithNoSSR = dynamic(
+  () => import("../components/SearchBar/search"),
+  {
+    ssr: false,
+  }
+);
 
 export default function SideLayout({ children, header }: ISideLayout) {
   const fixedCntHeader = (
