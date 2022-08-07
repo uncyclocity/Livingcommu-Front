@@ -40,9 +40,7 @@ export default function Map() {
 
           const options: any = { level: 3 };
 
-          //if (location.pathname === "/") {
           options.center = new kakao.maps.LatLng(latitude, longitude);
-          //}
 
           const localMap = new kakao.maps.Map(container, options);
           const geocoder = new kakao.maps.services.Geocoder();
