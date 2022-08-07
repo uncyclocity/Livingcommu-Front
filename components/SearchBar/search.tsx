@@ -53,7 +53,10 @@ export default function SideSearch() {
     [autoComplete]
   );
 
-  const handleClear = useCallback(() => setSearch(""), []);
+  const handleClear = useCallback(() => {
+    setSearch("");
+    setAutoComplete([]);
+  }, []);
 
   return (
     <Container

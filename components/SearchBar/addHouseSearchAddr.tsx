@@ -2,7 +2,7 @@ import styled from "styled-components";
 import IconContainer from "../Icon/IconContainer";
 import { BiSearch } from "react-icons/bi";
 import { MdCancel } from "react-icons/md";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { IoLocationSharp, IoHomeSharp } from "react-icons/io5";
 
 interface IAutoComplete {
@@ -12,10 +12,29 @@ interface IAutoComplete {
   y: number;
 }
 
-export default function AddHouseSearchAddr() {
+interface IAddHouseSearchAddr {
+  nowPos: {
+    latitude: number;
+    longitude: number;
+  };
+}
+
+export default function AddHouseSearchAddr({ nowPos }: IAddHouseSearchAddr) {
   const [search, setSearch] = useState("");
   const [viewClear, setViewClear] = useState(false);
   const [autoComplete, setAutoComplete] = useState<IAutoComplete[]>([]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && typeof window?.kakao !== "undefined") {
+      const { kakao } = window;
+      const geocoder = new kakao.maps.services.Geocoder();
+      geocoder.coord2Address(
+        nowPos.latitude,
+        nowPos.longitude,
+        (regionCode: any) => setSearch(regionCode[0].address.address_name)
+      );
+    }
+  }, [nowPos]);
 
   const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     if (typeof window !== "undefined") {
@@ -27,8 +46,11 @@ export default function AddHouseSearchAddr() {
       geocoder.addressSearch(
         e.target.value,
         (res: IAutoComplete[], status: string) => {
-          console.log(res);
           if (status === kakao.maps.services.Status.OK) {
+            res = res.filter(
+              ({ address_type }: { address_type: string }) =>
+                address_type === "REGION_ADDR"
+            );
             setAutoComplete(res);
           } else {
             setAutoComplete([]);
@@ -54,7 +76,10 @@ export default function AddHouseSearchAddr() {
     [autoComplete]
   );
 
-  const handleClear = useCallback(() => setSearch(""), []);
+  const handleClear = useCallback(() => {
+    setSearch("");
+    setAutoComplete([]);
+  }, []);
 
   return (
     <Container
@@ -81,13 +106,7 @@ export default function AddHouseSearchAddr() {
             <tr key={index} onClick={() => handleMove(index)}>
               <td width="20px">
                 <IconContainer
-                  icon={
-                    searchWord.address_type === "REGION" ? (
-                      <IoLocationSharp />
-                    ) : (
-                      <IoHomeSharp />
-                    )
-                  }
+                  icon={<IoHomeSharp />}
                   size="17px"
                   color="#0fae76"
                   top={2.5}
@@ -144,7 +163,7 @@ const AutoComplete = styled.table`
   z-index: 100;
 
   position: absolute;
-  top: 280px;
+  top: 310px;
   left: 20px;
 
   border-radius: 5px;

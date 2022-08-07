@@ -1,14 +1,31 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import SideContainer from "../../components/Side/container";
 import SideJustHeader from "../../components/Side/justHeader";
 import AddHouseSearchAddr from "../../components/SearchBar/addHouseSearchAddr";
+import IconContainer from "../../components/Icon/IconContainer";
+import { MdOutlineNavigateNext } from "react-icons/md";
+import { useRecoilState } from "recoil";
+import { userDefaultSetState } from "../../stores/UserDefaultSet";
 
 export default function AddHouse() {
   const router = useRouter();
   const [step, setStep] = useState(1);
+  const [nowPos, setNowPos] = useState({ latitude: 0, longitude: 0 });
+  const [{ lastSite }] = useRecoilState(userDefaultSetState);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && typeof window?.kakao !== "undefined") {
+      const { kakao } = window;
+      const map = kakao.maps.localMap;
+
+      const nowCenter = kakao.maps.localMap.getCenter();
+      setNowPos({ latitude: nowCenter.La, longitude: nowCenter.Ma });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastSite]);
 
   const step1 = (
     <div>
@@ -23,7 +40,18 @@ export default function AddHouse() {
         <br />
         (동, 호, 수 제외)
       </SubDescription>
-      <AddHouseSearchAddr />
+      <AddHouseSearchAddr nowPos={nowPos} />
+      <NextBtnArea>
+        <div className="next-btn">
+          다음
+          <IconContainer
+            icon={<MdOutlineNavigateNext />}
+            size="25px"
+            top={-2}
+            color="white"
+          />
+        </div>
+      </NextBtnArea>
     </div>
   );
 
@@ -50,7 +78,7 @@ export default function AddHouse() {
 }
 
 const LevelBar = styled.div`
-  padding: 10px 0;
+  padding: 20px 0 10px 0;
 
   display: flex;
   justify-content: center;
@@ -87,4 +115,32 @@ const Description = styled.div`
 const SubDescription = styled.div`
   font-size: 15px;
   font-weight: 300;
+`;
+
+const NextBtnArea = styled.div`
+  display: flex;
+  justify-content: right;
+
+  .next-btn {
+    height: 35px;
+
+    padding: 0 12px 0 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 500;
+
+    border-radius: 5px;
+
+    background: #0fae76;
+    color: white;
+
+    cursor: pointer;
+
+    &.disabled {
+      background: #dddddd;
+    }
+  }
 `;
