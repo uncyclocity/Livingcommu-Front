@@ -8,9 +8,11 @@ import IconContainer from "../Icon/IconContainer";
 import Slider from "react-slick";
 import houseList from "../../dummy/houseList.json";
 import { IoWarning } from "react-icons/io5";
+import { useRouter } from "next/router";
 
 export default function SideNowPosition() {
   const [nowPos] = useRecoilState(nowPositionState);
+  const router = useRouter();
 
   const top5House = houseList
     .map((house) => {
@@ -69,7 +71,11 @@ export default function SideNowPosition() {
           <Slider {...carouselSettings}>
             {top5House[0] ? (
               top5House.map((house, index) => (
-                <div className="item" key={house?.id}>
+                <div
+                  className="item"
+                  key={house?.id}
+                  onClick={() => router.push(`house/${house?.id}`)}
+                >
                   <span>
                     <span className="number">{index + 1}</span>
                     {house?.name}
@@ -143,6 +149,7 @@ const NowPosPopularFrame = styled.div`
 
   margin: 5px 0;
 
+  font-size: 15px;
   font-weight: 300;
 
   overflow-y: hidden;
@@ -166,6 +173,8 @@ const NowPosPopularFrame = styled.div`
     display: flex !important;
     align-items: center;
     justify-content: space-between;
+
+    cursor: pointer;
 
     & > span {
       max-width: 278px;
