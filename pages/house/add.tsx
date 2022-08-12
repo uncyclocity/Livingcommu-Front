@@ -19,8 +19,6 @@ export default function AddHouse() {
   useEffect(() => {
     if (typeof window !== "undefined" && typeof window?.kakao !== "undefined") {
       const { kakao } = window;
-      const map = kakao.maps.localMap;
-
       const nowCenter = kakao.maps.localMap.getCenter();
       setNowPos({ latitude: nowCenter.La, longitude: nowCenter.Ma });
     }
@@ -31,9 +29,9 @@ export default function AddHouse() {
     <div>
       <StepNum>1</StepNum>
       <Description>
-        등록하실 위치로
+        등록하실 위치에
         <br />
-        마커를 이동해 주세요.
+        마커를 맞추어 주세요.
       </Description>
       <SubDescription>
         혹은 아래에 주소를 정확히 입력해주세요

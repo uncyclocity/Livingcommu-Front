@@ -9,6 +9,8 @@ import { TNowPosition } from "../../type/nowPosition";
 import { getAverageScore } from "../../lib/getAverageScore";
 import { userDefaultSetState } from "../../stores/UserDefaultSet";
 import userDefaultSetList from "../../dummy/userDefaultSet.json";
+import IconContainer from "../Icon/IconContainer";
+import { HiLocationMarker } from "react-icons/hi";
 
 export default function Map() {
   const [, setNowPos] = useRecoilState(nowPositionState);
@@ -128,10 +130,32 @@ export default function Map() {
     return () => mapScript.removeEventListener("load", onLoadKakaoMap);
   }, [handleViewHouseDetail, setNowPos, setUserDefaultSet]);
 
-  return <MapContainer id="map" />;
+  return (
+    <>
+      <MapContainer id="map" />
+      {typeof location !== "undefined" && location.pathname === "/house/add" && (
+        <CenterMarker>
+          <IconContainer
+            icon={<HiLocationMarker />}
+            size="50px"
+            top={0}
+            color="#0fae76"
+          />
+        </CenterMarker>
+      )}
+    </>
+  );
 }
 
 const MapContainer = styled.div`
   width: 100vw;
   height: 100vh;
+`;
+
+const CenterMarker = styled.div`
+  z-index: 10000;
+
+  position: absolute;
+  top: calc(50% - 25px);
+  left: calc(50% - 25px);
 `;

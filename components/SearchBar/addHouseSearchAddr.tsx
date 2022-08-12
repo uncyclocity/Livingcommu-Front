@@ -2,8 +2,8 @@ import styled from "styled-components";
 import IconContainer from "../Icon/IconContainer";
 import { BiSearch } from "react-icons/bi";
 import { MdCancel } from "react-icons/md";
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
-import { IoLocationSharp, IoHomeSharp } from "react-icons/io5";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { IoHomeSharp } from "react-icons/io5";
 
 interface IAutoComplete {
   address_name: string;
@@ -31,7 +31,8 @@ export default function AddHouseSearchAddr({ nowPos }: IAddHouseSearchAddr) {
       geocoder.coord2Address(
         nowPos.latitude,
         nowPos.longitude,
-        (regionCode: any) => setSearch(regionCode[0].address.address_name)
+        (regionCode: any) =>
+          regionCode.length && setSearch(regionCode[0].address.address_name)
       );
     }
   }, [nowPos]);
@@ -163,7 +164,7 @@ const AutoComplete = styled.table`
   z-index: 100;
 
   position: absolute;
-  top: 310px;
+  top: 295px;
   left: 20px;
 
   border-radius: 5px;
