@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { nowPositionState } from "../../stores/Map";
 import houseList from "../../dummy/houseList.json";
@@ -13,8 +13,8 @@ import IconContainer from "../Icon/IconContainer";
 import { HiLocationMarker } from "react-icons/hi";
 
 export default function Map() {
-  const [, setNowPos] = useRecoilState(nowPositionState);
-  const [, setUserDefaultSet] = useRecoilState(userDefaultSetState);
+  const [nowPos, setNowPos] = useRecoilState(nowPositionState);
+  const setUserDefaultSet = useSetRecoilState(userDefaultSetState);
   const router = useRouter();
 
   const handleViewHouseDetail = useCallback(
@@ -135,6 +135,7 @@ export default function Map() {
       <MapContainer id="map" />
       {typeof location !== "undefined" && location.pathname === "/house/add" && (
         <CenterMarker>
+          <div className="now-pos">{nowPos?.address.address_name}</div>
           <IconContainer
             icon={<HiLocationMarker />}
             size="50px"
@@ -155,7 +156,26 @@ const MapContainer = styled.div`
 const CenterMarker = styled.div`
   z-index: 10000;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   position: absolute;
-  top: calc(50% - 25px);
-  left: calc(50% - 25px);
+  top: calc(50% - 70px);
+  left: calc(50% - 111px);
+
+  .now-pos {
+    min-width: 210px;
+
+    font-size: 12px;
+    text-align: center;
+    text-overflow: ellipsis;
+
+    border: 1px solid #dedede;
+    border-radius: 5px;
+
+    background: white;
+    box-shadow: 1px 1px 2px rgba(131, 131, 131, 0.089);
+  }
 `;

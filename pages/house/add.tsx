@@ -1,29 +1,16 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import SideContainer from "../../components/Side/container";
 import SideJustHeader from "../../components/Side/justHeader";
 import AddHouseSearchAddr from "../../components/SearchBar/addHouseSearchAddr";
 import IconContainer from "../../components/Icon/IconContainer";
 import { MdOutlineNavigateNext } from "react-icons/md";
-import { useRecoilState } from "recoil";
-import { userDefaultSetState } from "../../stores/UserDefaultSet";
 
 export default function AddHouse() {
   const router = useRouter();
   const [step, setStep] = useState(1);
-  const [nowPos, setNowPos] = useState({ latitude: 0, longitude: 0 });
-  const [{ lastSite }] = useRecoilState(userDefaultSetState);
-
-  useEffect(() => {
-    if (typeof window !== "undefined" && typeof window?.kakao !== "undefined") {
-      const { kakao } = window;
-      const nowCenter = kakao.maps.localMap.getCenter();
-      setNowPos({ latitude: nowCenter.La, longitude: nowCenter.Ma });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lastSite]);
 
   const step1 = (
     <div>
@@ -38,7 +25,7 @@ export default function AddHouse() {
         <br />
         (동, 호, 수 제외)
       </SubDescription>
-      <AddHouseSearchAddr nowPos={nowPos} />
+      <AddHouseSearchAddr/>
       <NextBtnArea>
         <div className="next-btn">
           다음

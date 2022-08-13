@@ -12,7 +12,7 @@ import { FieldValues } from "react-hook-form";
 import { useRecoilState } from "recoil";
 import { userState } from "../../../stores/User";
 import dayjs from "dayjs";
-import { IReviewScore, keys, TReviewScore } from "../../../lib/getAverageScore";
+import { keys, TReviewScore } from "../../../lib/getAverageScore";
 
 export default function Writing() {
   const [rates, setRates] = useState([1, 1, 1, 1, 1]);

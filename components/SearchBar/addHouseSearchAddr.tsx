@@ -4,6 +4,8 @@ import { BiSearch } from "react-icons/bi";
 import { MdCancel } from "react-icons/md";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { IoHomeSharp } from "react-icons/io5";
+import { useRecoilState } from "recoil";
+import { nowPositionState } from "../../stores/Map";
 
 interface IAutoComplete {
   address_name: string;
@@ -12,30 +14,13 @@ interface IAutoComplete {
   y: number;
 }
 
-interface IAddHouseSearchAddr {
-  nowPos: {
-    latitude: number;
-    longitude: number;
-  };
-}
-
-export default function AddHouseSearchAddr({ nowPos }: IAddHouseSearchAddr) {
+export default function AddHouseSearchAddr() {
   const [search, setSearch] = useState("");
+  const [nowPos] = useRecoilState(nowPositionState)
   const [viewClear, setViewClear] = useState(false);
   const [autoComplete, setAutoComplete] = useState<IAutoComplete[]>([]);
 
-  useEffect(() => {
-    if (typeof window !== "undefined" && typeof window?.kakao !== "undefined") {
-      const { kakao } = window;
-      const geocoder = new kakao.maps.services.Geocoder();
-      geocoder.coord2Address(
-        nowPos.latitude,
-        nowPos.longitude,
-        (regionCode: any) =>
-          regionCode.length && setSearch(regionCode[0].address.address_name)
-      );
-    }
-  }, [nowPos]);
+  useEffect(() => setSearch(nowPos.address.address_name), [nowPos]);
 
   const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     if (typeof window !== "undefined") {
