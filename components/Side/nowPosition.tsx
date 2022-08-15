@@ -1,14 +1,14 @@
-import { IoMdNavigate, IoMdPodium } from "react-icons/io";
-import { HiUser } from "react-icons/hi";
-import { TbMoodCry } from "react-icons/tb";
-import { useRecoilState } from "recoil";
-import styled from "styled-components";
-import { nowPositionState } from "../../stores/Map";
-import IconContainer from "../Icon/IconContainer";
-import Slider from "react-slick";
-import houseList from "../../dummy/houseList.json";
-import { IoWarning } from "react-icons/io5";
-import { useRouter } from "next/router";
+import { IoMdNavigate, IoMdPodium } from 'react-icons/io';
+import { HiUser } from 'react-icons/hi';
+import { TbMoodCry } from 'react-icons/tb';
+import { useRecoilState } from 'recoil';
+import styled from 'styled-components';
+import { nowPositionState } from '../../stores/Map';
+import IconContainer from '../Icon/IconContainer';
+import Slider from 'react-slick';
+import houseList from '../../dummy/houseList.json';
+import { IoWarning } from 'react-icons/io5';
+import { useRouter } from 'next/router';
 
 export default function SideNowPosition() {
   const [nowPos] = useRecoilState(nowPositionState);
@@ -24,7 +24,7 @@ export default function SideNowPosition() {
       }
     })
     .sort((a, b): any => {
-      if (typeof a?.view === "number" && typeof b?.view === "number") {
+      if (typeof a?.view === 'number' && typeof b?.view === 'number') {
         if (a.view > b.view) return 1;
         if (a.view === b.view) return 0;
         if (a.view < b.view) return -1;
@@ -47,7 +47,7 @@ export default function SideNowPosition() {
       <NowPosArea>
         <IconContainer
           icon={<IoMdNavigate />}
-          size={"15px"}
+          size={'15px'}
           color="#0fae76;"
           top={2.5}
         />
@@ -59,12 +59,12 @@ export default function SideNowPosition() {
       <NowPosPopularArea>
         <IconContainer
           icon={<IoMdPodium />}
-          size={"15px"}
+          size={'15px'}
           color="#0fae76;"
           top={3}
         />
         <NowPosPopularTitle>
-          <span className="address">{` ${nowPos.address.region_3depth_name}`}</span>{" "}
+          <span className="address">{` ${nowPos.address.region_3depth_name}`}</span>{' '}
           인기 주택 TOP 5
         </NowPosPopularTitle>
         <NowPosPopularFrame>
@@ -83,7 +83,7 @@ export default function SideNowPosition() {
                   <span>
                     <IconContainer
                       icon={<HiUser />}
-                      size={"13px"}
+                      size="13px"
                       color="#0fae76;"
                       top={2}
                     />
@@ -93,7 +93,7 @@ export default function SideNowPosition() {
               ))
             ) : (
               <div className="not-found">
-                <IconContainer icon={<TbMoodCry />} size={"13px"} top={-1} />
+                <IconContainer icon={<TbMoodCry />} size={'13px'} top={-1} />
                 {`아직 ${nowPos.address.region_3depth_name}에는 등록 된 주택이 없어요`}
               </div>
             )}
@@ -103,7 +103,12 @@ export default function SideNowPosition() {
     </>
   ) : (
     <NotFoundArea>
-      <IconContainer icon={<IoWarning />} size={"15px"} top={3} />
+      <IconContainer
+        icon={<IoWarning />}
+        color="#0fae76;"
+        size="30px"
+        top={-5}
+      />
       <span>위치를 찾을 수 없습니다.</span>
       <div>지도를 좀 더 확대하거나, 올바른 위치로 이동해주세요.</div>
     </NotFoundArea>
@@ -111,6 +116,13 @@ export default function SideNowPosition() {
 }
 
 const NotFoundArea = styled.div`
+  height: 132px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   font-size: 14px;
   font-weight: 300;
 `;

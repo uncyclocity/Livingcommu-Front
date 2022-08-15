@@ -1,13 +1,16 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
 
 export const nowPositionState = atom({
-  key: "nowPosition",
+  key: 'nowPosition',
   default: {
     address: {
-      address_name: "",
-      region_1depth_name: "",
-      region_2depth_name: "",
-      region_3depth_name: "",
+      address_name: '',
+      mountain_yn: '',
+      main_address_no: '',
+      sub_address_no: '',
+      region_1depth_name: '',
+      region_2depth_name: '',
+      region_3depth_name: '',
     },
   },
 });

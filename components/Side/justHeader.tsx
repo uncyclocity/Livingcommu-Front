@@ -1,22 +1,22 @@
-import { useRouter } from "next/router";
-import { useCallback } from "react";
-import { IoArrowBackOutline, IoClose } from "react-icons/io5";
-import styled from "styled-components";
-import IconContainer from "../Icon/IconContainer";
+import { useRouter } from 'next/router';
+import { useCallback } from 'react';
+import { IoArrowBackOutline, IoClose } from 'react-icons/io5';
+import styled from 'styled-components';
+import IconContainer from '../Icon/IconContainer';
 
 interface IJustHeader {
   title: string;
+  backKeyAction?: any;
 }
 
-interface IAddrSwitch {
-  type: string;
-}
-
-export default function SideJustHeader({ title }: IJustHeader) {
+export default function SideJustHeader({ title, backKeyAction }: IJustHeader) {
   const router = useRouter();
 
-  const handleGoBack = useCallback(() => router.back(), [router]);
-  const handleCancel = useCallback(() => router.push("/"), [router]);
+  const handleGoBack = useCallback(
+    () => (backKeyAction ? backKeyAction() : router.back()),
+    [backKeyAction, router],
+  );
+  const handleCancel = useCallback(() => router.push('/'), [router]);
 
   return (
     <Container>

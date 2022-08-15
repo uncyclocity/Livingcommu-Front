@@ -1,29 +1,27 @@
-import styled from "styled-components";
-import IconContainer from "../Icon/IconContainer";
-import { BiSearch } from "react-icons/bi";
-import { MdCancel } from "react-icons/md";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { IoHomeSharp } from "react-icons/io5";
-import { useRecoilState } from "recoil";
-import { nowPositionState } from "../../stores/Map";
+import styled from 'styled-components';
+import IconContainer from '../Icon/IconContainer';
+import { BiSearch } from 'react-icons/bi';
+import { MdCancel } from 'react-icons/md';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { IoHomeSharp } from 'react-icons/io5';
+import { useRecoilState } from 'recoil';
+import { nowPositionState } from '../../stores/Map';
 
 interface IAutoComplete {
   address_name: string;
-  address_type: "REGION" | "REGION_ADDR";
+  address_type: 'REGION' | 'REGION_ADDR';
   x: number;
   y: number;
 }
 
 export default function AddHouseSearchAddr() {
-  const [search, setSearch] = useState("");
-  const [nowPos] = useRecoilState(nowPositionState)
+  const [search, setSearch] = useState('');
+  const [nowPos] = useRecoilState(nowPositionState);
   const [viewClear, setViewClear] = useState(false);
   const [autoComplete, setAutoComplete] = useState<IAutoComplete[]>([]);
 
-  useEffect(() => setSearch(nowPos.address.address_name), [nowPos]);
-
   const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       const { kakao } = window;
       const geocoder = new kakao.maps.services.Geocoder();
 
@@ -35,37 +33,42 @@ export default function AddHouseSearchAddr() {
           if (status === kakao.maps.services.Status.OK) {
             res = res.filter(
               ({ address_type }: { address_type: string }) =>
-                address_type === "REGION_ADDR"
+                address_type === 'REGION_ADDR',
             );
             setAutoComplete(res);
           } else {
             setAutoComplete([]);
           }
-        }
+        },
       );
     }
   }, []);
 
   const handleMove = useCallback(
     (index: number) => {
-      if (typeof window !== "undefined") {
+      if (typeof window !== 'undefined') {
         const { kakao } = window;
         const coords = new kakao.maps.LatLng(
           autoComplete[index].y,
-          autoComplete[index].x
+          autoComplete[index].x,
         );
         kakao.maps.localMap.setCenter(coords);
         setAutoComplete([]);
-        setSearch("");
+        setSearch('');
       }
     },
-    [autoComplete]
+    [autoComplete],
   );
 
   const handleClear = useCallback(() => {
-    setSearch("");
+    setSearch('');
     setAutoComplete([]);
   }, []);
+
+  useEffect(
+    () => (nowPos ? setSearch(nowPos.address.address_name) : handleClear()),
+    [handleClear, nowPos],
+  );
 
   return (
     <Container

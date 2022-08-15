@@ -1,16 +1,16 @@
-import { useCallback, useEffect } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import styled from "styled-components";
-import { nowPositionState } from "../../stores/Map";
-import houseList from "../../dummy/houseList.json";
-import houseScore from "../../dummy/houseScore.json";
-import { useRouter } from "next/router";
-import { TNowPosition } from "../../type/nowPosition";
-import { getAverageScore } from "../../lib/getAverageScore";
-import { userDefaultSetState } from "../../stores/UserDefaultSet";
-import userDefaultSetList from "../../dummy/userDefaultSet.json";
-import IconContainer from "../Icon/IconContainer";
-import { HiLocationMarker } from "react-icons/hi";
+import { useCallback, useEffect } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import styled from 'styled-components';
+import { nowPositionState } from '../../stores/Map';
+import houseList from '../../dummy/houseList.json';
+import houseScore from '../../dummy/houseScore.json';
+import { useRouter } from 'next/router';
+import { TNowPosition } from '../../type/nowPosition';
+import { getAverageScore } from '../../lib/getAverageScore';
+import { userDefaultSetState } from '../../stores/UserDefaultSet';
+import userDefaultSetList from '../../dummy/userDefaultSet.json';
+import IconContainer from '../Icon/IconContainer';
+import { HiLocationMarker } from 'react-icons/hi';
 
 export default function Map() {
   const [nowPos, setNowPos] = useRecoilState(nowPositionState);
@@ -21,19 +21,19 @@ export default function Map() {
     (id: number) => {
       router.push(`/house/${id}`);
     },
-    [router]
+    [router],
   );
 
   useEffect(() => {
-    const mapScript = document.createElement("script");
+    const mapScript = document.createElement('script');
     mapScript.async = true;
     mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_APPKEY}&autoload=false&libraries=services`;
 
     document.head.appendChild(mapScript);
 
     const onLoadKakaoMap = () => {
-      if (typeof window !== "undefined") {
-        const container = document.getElementById("map");
+      if (typeof window !== 'undefined') {
+        const container = document.getElementById('map');
         const { kakao } = window;
 
         kakao.maps.load(() => {
@@ -60,7 +60,7 @@ export default function Map() {
             geocoder.coord2Address(
               latlng.getLng(),
               latlng.getLat(),
-              (address: TNowPosition[]) => setNowPos(address[0])
+              (address: TNowPosition[]) => setNowPos(address[0]),
             );
 
             setUserDefaultSet((prev) => ({
@@ -73,34 +73,34 @@ export default function Map() {
             const level = localMap.getLevel();
             if (level <= 5) {
               houseList.map((house, index) => {
-                const marker = document.createElement("div");
+                const marker = document.createElement('div');
                 const houseReviewData =
                   houseScore[
                     houseScore.findIndex(
                       (houseScoreObj) =>
-                        house.id && houseScoreObj.id === +house.id
+                        house.id && houseScoreObj.id === +house.id,
                     )
                   ];
 
-                marker.id = "marker";
+                marker.id = 'marker';
                 marker.onclick = () => handleViewHouseDetail(house.id);
                 marker.innerHTML = `<div>${
                   house.type
                 }</div><div id="score">★ ${getAverageScore(
-                  houseReviewData
+                  houseReviewData,
                 ).toFixed(1)}</div>`;
                 const overlay = new kakao.maps.CustomOverlay({
                   content: marker,
                   map: localMap,
                   position: new kakao.maps.LatLng(
                     house.coordinate.latitude,
-                    house.coordinate.longitude
+                    house.coordinate.longitude,
                   ),
                 });
 
                 overlay.setMap(localMap);
 
-                kakao.maps.event.addListener(localMap, "zoom_changed", () => {
+                kakao.maps.event.addListener(localMap, 'zoom_changed', () => {
                   const level = localMap.getLevel();
                   level > 5 && overlay.setMap(null);
                 });
@@ -113,27 +113,27 @@ export default function Map() {
 
           kakao.maps.event.addListener(
             localMap,
-            "center_changed",
-            handleCenterChanged
+            'center_changed',
+            handleCenterChanged,
           );
           kakao.maps.event.addListener(
             localMap,
-            "zoom_changed",
-            handleZoomChanged
+            'zoom_changed',
+            handleZoomChanged,
           );
         });
       }
     };
 
-    mapScript.addEventListener("load", onLoadKakaoMap);
+    mapScript.addEventListener('load', onLoadKakaoMap);
 
-    return () => mapScript.removeEventListener("load", onLoadKakaoMap);
+    return () => mapScript.removeEventListener('load', onLoadKakaoMap);
   }, [handleViewHouseDetail, setNowPos, setUserDefaultSet]);
 
   return (
     <>
       <MapContainer id="map" />
-      {typeof location !== "undefined" && location.pathname === "/house/add" && (
+      {typeof location !== 'undefined' && location.pathname === '/house/add' && (
         <CenterMarker>
           <div className="now-pos">{nowPos?.address.address_name}</div>
           <IconContainer
@@ -167,15 +167,21 @@ const CenterMarker = styled.div`
 
   .now-pos {
     min-width: 210px;
+    height: 29px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     font-size: 12px;
     text-align: center;
     text-overflow: ellipsis;
+    color: white;
 
     border: 1px solid #dedede;
-    border-radius: 5px;
+    border-radius: 10px;
 
-    background: white;
+    background: #0fae76;
     box-shadow: 1px 1px 2px rgba(131, 131, 131, 0.089);
   }
 `;
