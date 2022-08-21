@@ -93,7 +93,7 @@ export default function SideNowPosition() {
               ))
             ) : (
               <div className="not-found">
-                <IconContainer icon={<TbMoodCry />} size={'13px'} top={-1} />
+                <IconContainer icon={<TbMoodCry />} size={'13px'} top={0} />
                 {`아직 ${nowPos.address.region_3depth_name}에는 등록 된 주택이 없어요`}
               </div>
             )}

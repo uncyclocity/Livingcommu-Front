@@ -60,7 +60,10 @@ export default function Map() {
             geocoder.coord2Address(
               latlng.getLng(),
               latlng.getLat(),
-              (address: TNowPosition[]) => setNowPos(address[0]),
+              (address: TNowPosition[]) =>
+                address[0].road_address &&
+                address[0].address &&
+                setNowPos(address[0]),
             );
 
             setUserDefaultSet((prev) => ({

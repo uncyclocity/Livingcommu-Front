@@ -8,7 +8,7 @@ interface SelectProps extends InputHTMLAttributes<any> {
 export default function Select(props: SelectProps) {
   return (
     <Container>
-      <SelectBox>
+      <SelectBox {...props}>
         {props.dataSources.map((dataSource) => (
           <option key={dataSource.value} value={dataSource.value}>
             {dataSource.label}

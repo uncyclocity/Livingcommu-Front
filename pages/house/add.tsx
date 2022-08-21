@@ -12,6 +12,7 @@ import houseList from '../../dummy/houseList.json';
 import TextInput from '../../components/TextInput';
 import Select from '../../components/Select';
 import CheckBoxInput from '../../components/CheckBoxInput/Index';
+import dayjs from 'dayjs';
 
 const houseType = [
   { value: 'notSelected', label: '주택의 분류를 선택하세요' },
@@ -27,6 +28,8 @@ export default function AddHouse() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [isNoName, setIsNoName] = useState(false);
+  const [houseName, setHouseName] = useState('');
+  const [houseTypeVal, setHouseTypeVal] = useState([]);
   const [nowPos] = useRecoilState(nowPositionState);
 
   const step1Fn = useCallback(() => {
@@ -36,6 +39,27 @@ export default function AddHouse() {
       else setStep(2);
     });
   }, [nowPos]);
+
+  const step2Fn = useCallback(() => {
+    const localMap = window.kakao.maps.localMap;
+    const latlng = localMap.getCenter();
+
+    const houseObj = {
+      id: houseList[houseList.length - 1].id + 1,
+      createdAt: dayjs(),
+      view: 0,
+      type: houseType,
+      name: houseName,
+      coordinate: {
+        latitude: latlng.getLat,
+        longitude: latlng.getLng,
+      },
+      address_old: nowPos.address,
+      address_load: nowPos.road_address,
+    };
+
+    console.log(houseObj);
+  }, [houseName, nowPos.address, nowPos.road_address]);
 
   const step1 = (
     <div>
@@ -73,41 +97,41 @@ export default function AddHouse() {
 
   const step2 = (
     <div>
-      <StepNum>2</StepNum>
-      <Description>
-        주택의 분류를 선택하시고
-        <br />
-        주택명을 입력해 주세요.
-      </Description>
-      <Select dataSources={houseType} />
-      {console.log(nowPos)}
-      {isNoName && nowPos ? (
+      <>
+        <StepNum>2</StepNum>
+        <Description>
+          주택의 분류를 선택하시고
+          <br />
+          주택명을 입력해 주세요.
+        </Description>
+        <Select
+          dataSources={houseType}
+          value={houseTypeVal}
+          onChange={(e) => setHouseTypeVal(e.target.value)}
+        />
+        {console.log(nowPos)}
         <TextInput
-          value={`${nowPos.address.region_3depth_name} ${
-            nowPos.address.mountain_yn === 'Y' ? '산 ' : ''
-          }${nowPos.address.main_address_no}${
-            nowPos.address.sub_address_no && '-' + nowPos.address.sub_address_no
-          }`}
-          disabled
+          placeholder="주택명을 입력하세요"
+          disabled={isNoName}
+          value={houseName}
+          onChange={(e) => setHouseName(e.target.value)}
         />
-      ) : (
-        <TextInput placeholder="주택명을 입력하세요" />
-      )}
-      <CheckBoxInput
-        label="주택명이 없어요. 지번으로 할래요."
-        checked={isNoName}
-        onChange={(e) => setIsNoName(e.target.checked)}
-      />
-      <NextBtnArea>
-        <Button
-          onClick={step1Fn}
-          bgColor="#0fae76"
-          textColor="white"
-          paddingX="20px"
-          paddingY="5px"
-          inner="다음"
+        <CheckBoxInput
+          label="주택명이 없어요. 지번으로 할래요."
+          checked={isNoName}
+          onChange={(e) => setIsNoName(e.target.checked)}
         />
-      </NextBtnArea>
+        <NextBtnArea>
+          <Button
+            onClick={step2Fn}
+            bgColor="#0fae76"
+            textColor="white"
+            paddingX="20px"
+            paddingY="5px"
+            inner="다음"
+          />
+        </NextBtnArea>
+      </>
     </div>
   );
 
@@ -117,6 +141,24 @@ export default function AddHouse() {
       kakao.maps.localMap.setDraggable(step <= 1);
     }
   }, [step]);
+
+  useEffect(() => {
+    if (isNoName) {
+      setHouseName(
+        `${nowPos.address.region_3depth_name} ${
+          nowPos.address.mountain_yn === 'Y' ? '산 ' : ''
+        }${nowPos.address.main_address_no}${
+          nowPos.address.sub_address_no && '-' + nowPos.address.sub_address_no
+        }`,
+      );
+    }
+  }, [
+    isNoName,
+    nowPos.address.main_address_no,
+    nowPos.address.mountain_yn,
+    nowPos.address.region_3depth_name,
+    nowPos.address.sub_address_no,
+  ]);
 
   return (
     <>
